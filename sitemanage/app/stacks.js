@@ -4,11 +4,13 @@ import SignUp from './pages/SignUp';
 
 const Stack = createStackNavigator();
 
-function MyStack() {
+const MyStack = () => {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator initialRouteName="Login">
       <Stack.Screen name="Login" component={Login} />
       <Stack.Screen name="SignUp" component={SignUp} />      
     </Stack.Navigator>
   );
 }
+
+export default MyStack
