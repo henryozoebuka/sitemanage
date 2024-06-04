@@ -93,6 +93,12 @@ export const styles = {
         borderRadius: 25,
     },
 
+    buttonText: {
+        color: '#ffffff',
+        fontWeight: 'bold',
+        fontSize: 20,
+    },
+
     textInput: {
         backgroundColor: '#ffffff',
         padding: 10,
