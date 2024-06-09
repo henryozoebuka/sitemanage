@@ -2,11 +2,13 @@ import express from 'express'
 import mongoose from 'mongoose'
 import cors from 'cors'
 import 'dotenv/config'
+import usersRouter from './routes/usersRoute.js'
 
 const start =  async () => {
     const app = express();
     app.use(express.json());
     app.use(cors())
+    app.use('/', usersRouter)
     
     const port = process.env.PORT
 
