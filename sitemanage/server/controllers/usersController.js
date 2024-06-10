@@ -33,4 +33,17 @@ const fetchUsers = async (req, res) => {
     }
 }
 
-export {signUp, fetchUsers}
+//fetch user
+
+const fetchUser = async (req, res) => {
+    const id = req.params.id
+    try {
+        const user = await UserModel.findById(id)
+        res.status(200).json(user)
+    }
+    catch (error) {
+        console.log(error.message)
+    }
+}
+
+export {signUp, fetchUsers, fetchUser}
