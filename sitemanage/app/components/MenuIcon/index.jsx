@@ -1,5 +1,6 @@
 import { Pressable, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
+import { styles } from '../../constants/styles';
 import { Feather } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
 import {useSelector, useDispatch} from 'react-redux'
@@ -10,9 +11,9 @@ const MenuIcon = () => {
     const {menu} = useSelector(state=>state.menuState)
     const dispatch = useDispatch()
   return (
-    <View>
+    <View style={styles.safeAreaView}>
         <Pressable onPress={()=>dispatch(toggleMenu())}>
-        {menu ? <AntDesign name="close" size={24} color="black" /> : <Feather name="menu" size={24} color="black" />}
+        {menu ? <AntDesign name="close" size={30} color="black" /> : <Feather name="menu" size={30} color="black" />}
         </Pressable>      
     </View>
   )
@@ -20,4 +21,3 @@ const MenuIcon = () => {
 
 export default MenuIcon
 
-const styles = StyleSheet.create({})

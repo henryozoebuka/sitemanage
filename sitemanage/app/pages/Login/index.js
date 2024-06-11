@@ -10,7 +10,7 @@ const Login = () => {
   const dispatch = useDispatch()
   const { menu } = useSelector((state) => state.menuState);
   return (
-    <View>
+    <View style={styles.safeAreaView}>
       <Text>Login</Text>
       { menu ? <Text>Logged in.</Text> : null }
       {console.log(menu)}

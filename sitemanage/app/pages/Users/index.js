@@ -1,6 +1,7 @@
-import { Pressable, StyleSheet, Text, View } from 'react-native'
+import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native'
+import { styles } from '../../constants/styles'
 import React, { useEffect, useState } from 'react'
-import {useNavigation} from '@react-navigation/native'
+import { useNavigation } from '@react-navigation/native'
 import { useDispatch, useSelector } from 'react-redux'
 import axios from 'axios'
 
@@ -24,30 +25,31 @@ const Users = () => {
     }
 
     return (
-        <View>
-            {users && users.length > 0
-                ?
-                users.map((item, index) => (<Pressable key={index} onPress={()=>navigation.navigate('User', {id: item._id})}>
-                    <Text>
-                        {item.username}
-                    </Text>
-                    <Text>
-                        {item._id}
-                    </Text>
-                    <Text>
-                        {item.firstname}
-                    </Text>
-                    <Text>
-                        {item.lastname}
-                    </Text>
-                    <Text>
-                        {item.createdAt}
-                    </Text>
-                </Pressable>))
-                :
-                <Text>Nothing to show</Text>}
+        <View style={styles.safeAreaView}>
+            <ScrollView>
+                {users && users.length > 0
+                    ?
+                    users.map((item, index) => (<Pressable key={index} onPress={() => navigation.navigate('User', { id: item._id })}>
+                        <Text>
+                            {item.username}
+                        </Text>
+                        <Text>
+                            {item._id}
+                        </Text>
+                        <Text>
+                            {item.firstname}
+                        </Text>
+                        <Text>
+                            {item.lastname}
+                        </Text>
+                        <Text>
+                            {item.createdAt}
+                        </Text>
+                    </Pressable>))
+                    :
+                    <Text>Nothing to show</Text>}
 
-
+            </ScrollView>
         </View>
     )
 }

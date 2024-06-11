@@ -86,7 +86,6 @@ export const styles = {
     button: {
         backgroundColor: 'blue',
         padding: 10,
-        flex: 1,
         justifyContents: 'center',
         alignItems: 'center',
         marginBottom: 10,
@@ -99,16 +98,24 @@ export const styles = {
         fontSize: 20,
     },
 
+    text15: {
+        fontSize: 15
+    },
+
+    text20: {
+        fontSize: 20
+    },
+
     textInput: {
         backgroundColor: '#ffffff',
-        padding: 10,
-        flex: 1,
+        padding: 10,        
         justifyContents: 'center',
         alignItems: 'center',
         marginBottom: 10,
         borderRadius: 25,
         borderWidth: 1,
-        borderColor: 'gray'
+        borderColor: 'gray',
+        fontSize: 20
     },
 
     safeAreaView : {

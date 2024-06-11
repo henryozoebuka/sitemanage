@@ -46,4 +46,20 @@ const fetchUser = async (req, res) => {
     }
 }
 
-export {signUp, fetchUsers, fetchUser}
+const editUser = async (req, res) => {
+    const id = req.body.params
+
+    try {
+        const user = await UserModel.findByIdAndUpdate(id, req.body)
+        if(user){
+            return res.status(200).json({message: `${user.username}'s profile edited successfully!`})
+        }
+        else {
+            return res.status(201).json({message: `Something went wrong. Try again.`})
+        }
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export {signUp, fetchUsers, fetchUser, editUser}
