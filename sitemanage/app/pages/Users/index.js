@@ -24,6 +24,16 @@ const Users = () => {
         }
     }
 
+    const handleDelete = async (id) => {
+        try {
+            const response = await axios.delete(`${url}/user/${id}`)
+            setUsers(prevUsers => prevUsers.filter(items => items._id != id))
+            alert(response.data.message)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     return (
         <View style={styles.safeAreaView}>
             <ScrollView>
@@ -45,6 +55,9 @@ const Users = () => {
                         <Text>
                             {item.createdAt}
                         </Text>
+                        <Pressable style={styles.button} onPress={()=>handleDelete(item._id)}>
+                            <Text style={styles.buttonText}>Delete User</Text>
+                        </Pressable>
                     </Pressable>))
                     :
                     <Text>Nothing to show</Text>}

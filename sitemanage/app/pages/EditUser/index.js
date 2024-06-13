@@ -7,7 +7,10 @@ import { useSelector } from 'react-redux'
 const EditUser = ({route}) => {
     const {url} = useSelector(state=>state.baseURL)
     const {id} = route.params
-    const [user, setuser] = useState({})
+    const [user, setuser] = useState({
+        firstname: '',
+        lastname: ''
+    })
     useEffect(()=>{
         fetchUser()
     }, [])
