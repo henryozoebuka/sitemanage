@@ -21,6 +21,15 @@ const userSchema = mongoose.Schema({
         required: true,
     },
 
+    role: {
+        type: String
+    },
+
+    balance: {
+        type: Number,
+        default: 0
+    },
+
     createdAt: {
         type: Date,
         default: Date.now

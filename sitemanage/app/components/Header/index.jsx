@@ -10,7 +10,7 @@ const Header = () => {
     const dispatch = useDispatch()
     
     const {menu} = useSelector(state=>state.menuState)
-    const menuList = ['Sign Up', 'Login', 'Users']
+    const menuList = ['Sign Up', 'Login', 'Users', 'Add Material', 'Materials', 'Transactions']
     return (
         
         <View style={styles.safeAreaView}>

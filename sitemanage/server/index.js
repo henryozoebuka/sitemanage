@@ -3,12 +3,16 @@ import mongoose from 'mongoose'
 import cors from 'cors'
 import 'dotenv/config'
 import usersRouter from './routes/usersRoute.js'
+import materialsRouter from './routes/materialsRoute.js'
+import transactionsRouter from './routes/transactionsRoute.js'
 
 const start =  async () => {
     const app = express();
     app.use(express.json());
     app.use(cors())
     app.use('/', usersRouter)
+    app.use('/', materialsRouter)
+    app.use('/', transactionsRouter)
     
     const port = process.env.PORT
 
