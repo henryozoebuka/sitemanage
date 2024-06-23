@@ -14,6 +14,7 @@ const EditUser = ({route}) => {
     const [user, setuser] = useState({
         firstname: '',
         lastname: '',
+        gender: '',
         role: "",
     })
     useEffect(()=>{
@@ -53,6 +54,7 @@ const EditUser = ({route}) => {
     <View style={styles.safeAreaView}>
       <TextInput style={styles.textInput} value={user.firstname} onChangeText={(text)=>handleChange(text, 'firstname')} />
       <TextInput style={styles.textInput} value={user.lastname} onChangeText={(text)=>handleChange(text, 'lastname')} />
+      <TextInput style={styles.textInput} value={user.gender} onChangeText={(text)=>handleChange(text, 'gender')} />
       <RNPickerSelect
       value={user.role}
       onValueChange={(value)=>handleChange(value, 'role')}

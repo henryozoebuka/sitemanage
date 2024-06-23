@@ -1,59 +1,80 @@
-import { Modal, Pressable, Text, View, TextInput } from 'react-native'
+import { Pressable, Text, View, Modal, TextInput } from 'react-native'
+import { useDispatch, useSelector } from 'react-redux'
 import { useNavigation } from '@react-navigation/native'
+import React, { useState, useEffect } from 'react'
 import { styles } from '../../constants/styles.js'
-import React, { useEffect, useState } from 'react'
+import { setTransferData } from '../../../redux/transferData.js'
+import { setUsers } from '../../../redux/users.js'
 import axios from 'axios'
-import { useSelector } from 'react-redux'
 
-const User = ({ route }) => {
-  const [modal, setModal] = useState(false)
-  const [accounts, setAccounts] = useState([])
-  const { id } = route.params
-  const [verifiedAccount, setVerifiedAccount] = useState({})
-  const [accountDetails, setAccountDetails] = useState({
-    sender: id,
-    receiver: '',
-    amount: null,
-  })
+const User = () => {
+  const [modalVisibility, setModalVisibility] = useState(false)
+  const [verifyAccount, setVerifyAccount] = useState({})
   const navigation = useNavigation()
-
   const { url } = useSelector(state => state.baseURL)
-  const [user, setUser] = useState({})
+  const { users } = useSelector(state => state.users)
+  const { user } = useSelector(state => state.user)
+  const { transferData } = useSelector(state => state.transferData)
+  const dispatch = useDispatch()
 
-  useEffect(() => {
-    fetchUser()
-    fetchAccounts()
-  }, [])
 
-  const fetchAccounts = async () => {
-    try {
-      const response = await axios.get(`${url}/users`)
-      setAccounts(response.data)
-    } catch (error) {
-      console.log(error)
+  const handleChange = (text, fieldName) => {
+    let value = text
+    let acc = text
+    if (fieldName === 'amount') {
+      value = parseFloat(text)
     }
+    if (fieldName === 'receiver'){
+      let receiverAccount = acc
+      const fetchReceiver = async () => {
+        try {
+          const response = await axios.get(`${url}/user/${receiverAccount}`)
+          if(response.status === 200) {
+            setVerifyAccount(response.data)
+            console.log(verifyAccount)
+          }
+          else{
+            setVerifyAccount(response.message)
+          }
+        } catch (error) {
+          console.log(error)
+        }
+      }
+      fetchReceiver()
+      
+      // const filterAccount = users.filter(user => user._id === receiverAccount)
+    // setVerifyAccount(filterAccount)
+    }
+
+    dispatch(setTransferData({ ...transferData, sender: `${user._id}`, [fieldName]: value }))
+    
+
   }
 
-  const fetchUser = async () => {
-    try {
-      const response = await axios.get(`${url}/user/${id}`)
-      setUser(response.data)
-    } catch (error) {
-      console.log(error)
-    }
+  const toggleModalVisibility = () => {
+    setModalVisibility(!modalVisibility)
   }
 
+  const resetTransferData = () => {
+    dispatch(setTransferData({}))
+    setVerifyAccount({})
+  }
 
-  const handleTransferFund = async () => {
+  
+
+  const handleTransfer = async () => {
     try {
-      const response = await axios.post(`${url}/transferFund`, accountDetails)
-      if(response) {
+      const response = await axios.post(`${url}/transferFund`, transferData)
+      if (response) {
         alert(response.data.message)
-        if(response.status===200) {
+        if (response.status === 200) {
           setAccountDetails({
             receiver: '',
             amount: ''
           })
+        }
+        else if (response.status === 201) {
+          alert(response.data.message)
         }
       }
     } catch (error) {
@@ -61,67 +82,47 @@ const User = ({ route }) => {
     }
   }
 
-  const toggleModal = () => {
-    setModal(!modal)
-  }
-
-  const handleChange = (text, fieldName) => {
-    let value = text
-    if(fieldName === 'amount') {
-      value = parseFloat(value)
-    }
-
-    if(fieldName === 'receiver' && value.length) {
-      const filtered = accounts.filter(item => item._id.toLowerCase() === value.toLowerCase())
-        setVerifiedAccount(filtered)        
-    }
-
-    setAccountDetails({...accountDetails, [fieldName]: value})
-
-      
-      // if(accountDetails.receiver.length >= 24) {
-      //   const filtered = accounts.filter(item => item._id.toLowerCase() ===  receiver.toLowerCase())
-      //   setVerifiedAccount(filtered)        
-      // }     
-  }
-
   return (
-    <View style={styles.safeAreaView}>
-      <Pressable>
-        <Text>username: {user.username}</Text>
+    <View>
+      <View>
+        <Text>ID: {user._id}</Text>
+        <Text>Username: {user.username}</Text>
         <Text>Firstname: {user.firstname}</Text>
         <Text>Lastname: {user.lastname}</Text>
+        <Text>Gender: {user.gender}</Text>
+        <Text>Role: {user.role}</Text>
         <Text>Balance: {user.balance}</Text>
-      </Pressable>
-      <Pressable style={styles.button} onPress={() => navigation.navigate('Edit User', { id: id })}>
-        <Text style={styles.buttonText}>Edit Profile</Text>
-      </Pressable>
+      </View>
+      <View>
+        <Pressable style={styles.button} onPress={() => navigation.navigate('Edit User', { id: user._id })}>
+          <Text style={styles.buttonText}>Edit Profile</Text>
+        </Pressable>
 
-      <Pressable style={styles.button} onPress={toggleModal} >
-        <Text style={styles.buttonText}>Transfer Fund</Text>
-      </Pressable>
+        <Pressable onPress={toggleModalVisibility} style={styles.button}>
+          <Text style={styles.buttonText}>Transfer Fund</Text>
+        </Pressable>
+      </View>
 
-      <Modal animationType='slide' visible={modal} transparent={true} onRequestClose={() => {
-        // Handle modal close (Android back button)
-        setModalVisible(!modalVisible);
-      }}>
-        <View style={{ height: 400, width: 400, borderWidth: 2, borderColor: 'gray', alignItems: 'center', justifyContent: 'center', backgroundColor: 'gray' }}>
-
+      <Modal visible={modalVisibility} animationType='slide' transparent='true'>
+        <View style={{ width: '80%', backgroundColor: 'green', margin: 'auto', padding: '10%', borderRadius: 20 }}>
           <View>
-            <TextInput placeholder='Enter Account Number' value={accountDetails.receiver} onChangeText={(text) => handleChange(text, 'receiver')} />
-            <TextInput placeholder='Enter Amount' value={accountDetails.amount} onChangeText={(text) => handleChange(text, 'amount')} />
-            {verifiedAccount.length ? <Text>{verifiedAccount[0].firstname}</Text> : <Text>Account does not exist.</Text>}
+            <TextInput placeholder='Account Number' onChangeText={(text) => handleChange(text, 'receiver')} style={styles.textInput} />
+            {verifyAccount ? <View style={{flexDirection: 'row', marginBottom: 10}}>
+              <Text>{verifyAccount.firstname}</Text>
+              <Text> {verifyAccount.lastname}</Text>
+              </View> : null}
+            <TextInput placeholder='Amount' onChangeText={(text) => handleChange(text, 'amount')} style={styles.textInput} />
           </View>
-          <Pressable style={styles.button} onPress={handleTransferFund} >
-            <Text style={styles.buttonText}>Transfer</Text>
-          </Pressable>
-          <Pressable style={styles.button} onPress={toggleModal} >
-            <Text style={styles.buttonText}>Close modal</Text>
-          </Pressable>
+          <View>
+            <Pressable onPress={handleTransfer} style={styles.button}>
+              <Text style={styles.buttonText}>Transfer</Text>
+            </Pressable>
+            <Pressable onPress={() => { toggleModalVisibility(); resetTransferData() }} style={styles.button} >
+              <Text style={styles.buttonText}>Cancel</Text>
+            </Pressable>
+          </View>
         </View>
       </Modal>
-
-
     </View>
   )
 }

@@ -6,6 +6,11 @@ const userSchema = mongoose.Schema({
         required: true
     },
 
+    password: {
+        type: String,
+        required: true,
+    },
+
     firstname: {
         type: String,
         required: true
@@ -22,7 +27,8 @@ const userSchema = mongoose.Schema({
     },
 
     role: {
-        type: String
+        type: String,
+        default: 'user'
     },
 
     balance: {

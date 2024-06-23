@@ -3,6 +3,10 @@ import menuReducer from './menu.js'
 import menuIconReducer from './menuIcon.js'
 import baseURLReducer from './baseURL.js'
 import fetchUsersReducer from './fetchUsers.js'
+import loggedInReducer from './loggedIn.js'
+import userReducer from './user.js'
+import transferDataReducer from './transferData.js'
+import users from './users.js'
 
 
 export default configureStore({
@@ -10,6 +14,10 @@ export default configureStore({
         menuState: menuReducer,
         menuIcon: menuIconReducer,
         baseURL: baseURLReducer,
-        fetch: fetchUsersReducer
+        fetch: fetchUsersReducer,
+        login: loggedInReducer,
+        user: userReducer,
+        transferData: transferDataReducer,
+        users,
     }
 })

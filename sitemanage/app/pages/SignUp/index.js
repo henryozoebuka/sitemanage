@@ -28,6 +28,7 @@ const SignUp = () => {
         const response = await axios.post(`${url}/signup`, data)
         if(response.status === 200) {
           alert(response.data.message)
+          navigation.navigate('Login')
         } 
         else{
           alert(response.data.message)

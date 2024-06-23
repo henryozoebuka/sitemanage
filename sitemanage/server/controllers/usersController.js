@@ -23,6 +23,29 @@ const signUp = async (req, res) => {
     }
 }
 
+//login
+const login = async (req, res) => {
+    const {username, password} = req.body
+    try {        
+        const user = await UserModel.findOne({username: username})
+        if(!user) {
+            return res.status(400).json({message: 'Invalid login detail(s).'})
+        }
+        else {
+            const hashedPassword = await bcrypt.compare(password, user.password)            
+            if(!hashedPassword) {                
+                return res.status(401).json({message: 'Invalid login detail(s) pass.'})
+            } 
+            else if (hashedPassword) {
+                return res.status(200).json({user, message: 'Logged in successfully!'})
+            }
+        }
+
+    } catch (error) {
+        console.log(error)
+    }
+}
+
 //fetch users
 const fetchUsers = async (req, res) => {
     try {
@@ -39,12 +62,19 @@ const fetchUser = async (req, res) => {
     const id = req.params.id
     try {
         const user = await UserModel.findById(id)
-        res.status(200).json(user)
+        if(user){
+            return res.status(200).json(user)
+        }
+        else {
+            return res.json({message: 'Account does not exist.'})
+        }
     }
     catch (error) {
         console.log(error.message)
     }
 }
+
+
 
 //edit user
 const editUser = async (req, res) => {
@@ -81,4 +111,4 @@ const deleteUser = async (req, res) => {
     }
 }
 
-export {signUp, fetchUsers, fetchUser, editUser, deleteUser}
+export {signUp, fetchUsers, fetchUser, editUser, deleteUser, login}

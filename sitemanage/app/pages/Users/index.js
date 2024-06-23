@@ -3,13 +3,15 @@ import { styles } from '../../constants/styles'
 import React, { useEffect, useState } from 'react'
 import { useNavigation } from '@react-navigation/native'
 import { useDispatch, useSelector } from 'react-redux'
+import { setUsers } from '../../../redux/users'
 import axios from 'axios'
 
 
 
 const Users = () => {
+    const dispatch = useDispatch()
     const { url } = useSelector(state => state.baseURL)
-    const [users, setUsers] = useState([])
+    const { users } = useSelector(state => state.users)
     useEffect(() => {
         fetchUsers()
     }, [])
@@ -18,7 +20,8 @@ const Users = () => {
     const fetchUsers = async () => {
         try {
             const response = await axios.get(`${url}/users`)
-            setUsers(response.data)
+            dispatch(setUsers(response.data))
+            
         } catch (error) {
             console.log(error)
         }
@@ -35,7 +38,7 @@ const Users = () => {
     }
 
     return (
-        <View style={styles.safeAreaView}>
+        
             <ScrollView>
                 {users && users.length > 0
                     ?
@@ -53,9 +56,18 @@ const Users = () => {
                             {item.lastname}
                         </Text>
                         <Text>
+                            {item.gender}
+                        </Text>
+                        <Text>
+                            {item.balance}
+                        </Text>
+                        <Text>
+                            {item.role}
+                        </Text>
+                        <Text>
                             {item.createdAt}
                         </Text>
-                        <Pressable style={styles.button} onPress={()=>handleDelete(item._id)}>
+                        <Pressable style={styles.button} onPress={() => handleDelete(item._id)}>
                             <Text style={styles.buttonText}>Delete User</Text>
                         </Pressable>
                     </Pressable>))
@@ -63,7 +75,7 @@ const Users = () => {
                     <Text>Nothing to show</Text>}
 
             </ScrollView>
-        </View>
+        
     )
 }
 
