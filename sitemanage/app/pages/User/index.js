@@ -60,8 +60,6 @@ const User = () => {
     setVerifyAccount({})
   }
 
-  
-
   const handleTransfer = async () => {
     try {
       const response = await axios.post(`${url}/transferFund`, transferData)

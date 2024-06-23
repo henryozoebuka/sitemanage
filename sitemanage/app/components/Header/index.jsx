@@ -6,11 +6,13 @@ import { useDispatch, useSelector } from 'react-redux'
 import { toggleMenu } from '../../../redux/menu'
 
 const Header = () => {
+    const {user} = useSelector(state=>state.user)
+    const {loggedIn} = useSelector(state=>state.login)
     const navigation = useNavigation()
     const dispatch = useDispatch()
     
     const {menu} = useSelector(state=>state.menuState)
-    const menuList = ['Sign Up', 'Login', 'Users', 'Add Material', 'Materials', 'Transactions']
+    const menuList = [!loggedIn && 'Sign Up', !loggedIn && 'Login', user.role === 'admin' && 'Users', 'Add Material', 'Materials', 'Transactions', 'My Profile']
     return (
         
         <View style={styles.safeAreaView}>

@@ -42,7 +42,7 @@ const Users = () => {
             <ScrollView>
                 {users && users.length > 0
                     ?
-                    users.map((item, index) => (<Pressable key={index} onPress={() => navigation.navigate('User', { id: item._id })}>
+                    users.map((item, index) => (<Pressable key={index} onPress={() => navigation.navigate('Other User', { id: item._id })}>
                         <Text>
                             {item.username}
                         </Text>
