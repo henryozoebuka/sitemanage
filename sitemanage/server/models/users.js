@@ -6,9 +6,15 @@ const userSchema = mongoose.Schema({
         required: true
     },
 
+    accountNumber: {
+        type: String,
+        required: true,
+    },
+
     password: {
         type: String,
         required: true,
+        default: 'test',
     },
 
     firstname: {
@@ -26,6 +32,16 @@ const userSchema = mongoose.Schema({
         required: true,
     },
 
+    contactAddress: {
+        type: String,
+        default: 'Update your contact address.'
+    },
+
+    phoneNumber: {
+        type: String,
+        default: 'Update your phone number.'
+    },
+
     role: {
         type: String,
         default: 'user'
@@ -36,9 +52,19 @@ const userSchema = mongoose.Schema({
         default: 0
     },
 
+    status: {
+        type: String,
+        default: 'inactive'
+    },
+
     createdAt: {
         type: Date,
         default: Date.now
+    },
+
+    photo: {
+        type: String,
+        default: '',
     }
 })
 

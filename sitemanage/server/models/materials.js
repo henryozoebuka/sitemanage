@@ -1,16 +1,20 @@
 import mongoose from 'mongoose'
 
 const materialsSchema = new mongoose.Schema({
-    user: {
-        type: mongoose.Schema.Types.ObjectId
-    },
 
     addedBy: {
-        type: mongoose.Schema.Types.ObjectId
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'users'
     },
 
-    usedBy: {
-        type: mongoose.Schema.Types.ObjectId
+    givenTo: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'users'
+    },
+
+    removedBy: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'users'
     },
 
     name: {

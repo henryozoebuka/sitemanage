@@ -6,14 +6,13 @@ const transferFund = async (req, res) => {
     try {
         const fund = await TransactionsModel.create(req.body)
         const sender = await UsersModel.findById(req.body.sender)
-
         const receiver = await UsersModel.findById(req.body.receiver)
-        
+
 
         if (!receiver) {
             return res.status(400).json({ message: `Account not found` })
         }
-        else {
+        else {            
             if (sender.balance < req.body.amount) {
                 return res.status(201).json({ message: `Insufficient balance to tranfer $${req.body.amount}.` })
             }
@@ -35,6 +34,9 @@ const transferFund = async (req, res) => {
 const fetchTransactions = async (req, res) => {
     try {
         const transactions = await TransactionsModel.find()
+        .populate('sender')
+        .populate('receiver')
+        
         if (!transactions) {
             return res.status(201).json({ message: 'No transactions found.' })
         }

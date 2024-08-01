@@ -1,9 +1,10 @@
 import express from 'express'
-import { addMaterial, materials } from '../controllers/materialsController.js'
+import { addMaterial, materials, removeMaterials } from '../controllers/materialsController.js'
 
 const materialsRouter = express.Router()
 
-materialsRouter.post('/addmaterial', addMaterial)
+materialsRouter.post('/addmaterials', addMaterial)
 materialsRouter.get('/materials', materials)
+materialsRouter.post('/removematerials', removeMaterials)
 
 export default materialsRouter

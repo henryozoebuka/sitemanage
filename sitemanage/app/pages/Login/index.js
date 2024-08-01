@@ -1,4 +1,4 @@
-import { SafeAreaView, TextInput, Text, View, Pressable } from 'react-native'
+import { SafeAreaView, Alert, TextInput, Text, View, Pressable } from 'react-native'
 import { styles } from '../../constants/styles.js'
 import { useDispatch, useSelector } from 'react-redux'
 import React, { useEffect, useState } from 'react'
@@ -16,7 +16,7 @@ const Login = () => {
   
   useEffect(() => {
     if (loggedIn) {
-      navigation.navigate('User');
+      navigation.navigate("My Profile");
     }
   }, [loggedIn]);
 
@@ -33,13 +33,20 @@ const Login = () => {
       if (response.status === 200) {
         dispatch(toggleLoggedIn())
         dispatch(setUser(response.data.user))        
-        alert(response.data.message)        
+        Alert.alert(response.data.message)                
       }
-      else if (response.status === 400) {
-        alert(response.data.message)
+      else if (response.status === 201) {
+        Alert.alert(response.data.message)
+      }
+      
+      else if (response.status === 202) {
+        Alert.alert(response.data.message)
+      }
+      else if (response.status === 203) {
+        Alert.alert(response.data.message)
       }
     } catch (error) {
-      console.log(error)
+      console.log(error)       
     }
   }
 
@@ -47,7 +54,7 @@ const Login = () => {
     <View style={styles.safeAreaView}>
       <View>
         <TextInput style={styles.textInput} placeholder='Username' onChangeText={(text) => handleChange(text, 'username')} />
-        <TextInput style={styles.textInput} placeholder='Password' onChangeText={(text) => handleChange(text, 'password')} />
+        <TextInput style={styles.textInput} placeholder='Password' onChangeText={(text) => handleChange(text, 'password')} secureTextEntry={true}/>
         <Pressable style={styles.button} onPress={handleSubmit}>
           <Text style={styles.buttonText}>Login</Text>
         </Pressable>

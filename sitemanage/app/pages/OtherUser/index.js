@@ -6,7 +6,7 @@ import axios from 'axios'
 import { useNavigation } from '@react-navigation/native'
 
 const OtherUser = ({ route }) => {
-  const [user, setUser] = useState({})
+  const [otherUser, setOtherUser] = useState({})
   const { url } = useSelector(state => state.baseURL)
   useEffect(() => {
     fetchUser();
@@ -17,7 +17,7 @@ const OtherUser = ({ route }) => {
   const fetchUser = async () => {
     try {
       const response = await axios.get(`${url}/user/${id}`)
-      setUser(response.data)
+      setOtherUser(response.data)
     } catch (error) {
       console.log(error)
     }
@@ -26,15 +26,15 @@ const OtherUser = ({ route }) => {
   return (
     <View>
       <View>
-        <Text>ID: {user._id}</Text>
-        <Text>Username: {user.username}</Text>
-        <Text>Firstname: {user.firstname}</Text>
-        <Text>Lastname: {user.lastname}</Text>
-        <Text>Role: {user.role}</Text>
-        <Text>Balance: {user.balance}</Text>
+        <Text>Account Number: {otherUser.accountNumber}</Text>
+        <Text>Username: {otherUser.username}</Text>
+        <Text>Firstname: {otherUser.firstname}</Text>
+        <Text>Lastname: {otherUser.lastname}</Text>
+        <Text>Role: {otherUser.role}</Text>
+        <Text>Balance: {otherUser.balance}</Text>
       </View>
       <View>
-        <Pressable style={styles.button} onPress={() => navigation.navigate('Edit User', { id: user._id })}>
+        <Pressable style={styles.button} onPress={() => navigation.navigate('Edit User', { id: otherUser._id })}>
           <Text style={styles.buttonText}>Edit Profile</Text>
         </Pressable>
       </View>

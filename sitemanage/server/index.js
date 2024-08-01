@@ -5,6 +5,8 @@ import 'dotenv/config'
 import usersRouter from './routes/usersRoute.js'
 import materialsRouter from './routes/materialsRoute.js'
 import transactionsRouter from './routes/transactionsRoute.js'
+import reportsRouter from './routes/reportsRoute.js'
+import reportCommentsRouter from './routes/reportCommentsRoute.js'
 
 const start =  async () => {
     const app = express();
@@ -13,6 +15,9 @@ const start =  async () => {
     app.use('/', usersRouter)
     app.use('/', materialsRouter)
     app.use('/', transactionsRouter)
+    app.use('/', reportsRouter)
+    app.use('/', reportCommentsRouter)
+    app.use("/uploads", express.static('uploads'))
     
     const port = process.env.PORT
 
