@@ -21,7 +21,6 @@ const fetchReportComments = async (req, res) => {
             .populate('commentId')
         if(reportComments){
         res.status(200).json(reportComments)
-        console.log('reportComments')
         }
         if(!reportComments){
             res.status(201).json({message: 'No data for this.'})

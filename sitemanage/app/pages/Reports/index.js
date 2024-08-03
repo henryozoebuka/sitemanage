@@ -48,7 +48,6 @@ const Reports = () => {
         if (response.status === 200) {
             alert(response.data.message)
             setRefreshPage(refreshPage + 1)
-            console.log(refreshPage)
         }
         else {
             alert(response.data.message)
@@ -79,6 +78,7 @@ const Reports = () => {
             const response = await axios.get(`${url}/fetchcomments/${reportId}`)
             if(response.status === 200){
                 setReportComments(response.data)
+                console.log(response.data)
             }
             else{
                 alert(response.data.message)
@@ -88,32 +88,14 @@ const Reports = () => {
         }
     }
 
-
-    //add comment text input function
-    // const addCommentTextInput = () => {
-    //     const comment = ''
-    //     setCommentContents([...commentContents, ''])
-    // }
-
-    
     //handle report text input change
     const handleChange = (text, fieldName) => {
-
-        if (fieldName.startsWith('comment')) {
-            setReportData(prevData => ({ ...prevData, comments: { ...prevData.comments, [fieldName]: text } }))
-        }
-        else {
-            setReportData({ ...reportData, [fieldName]: text })
-        }
-
-        console.log(reportData)
+        setReportData({ ...reportData, [fieldName]: text })
     }
 
     //handle comment text input
     const handleCommentChange = (text, fieldName) => {
-        // sdetCommentData({...commentData, commentId: report[0]._id, [fieldName]: text})
-        setCommentData(prevCommentData => ({...prevCommentData, commentId: report[0]._id, comment: {...prevCommentData.comment, [fieldName]: text }}))
-
+        setCommentData({commentId: report[0]._id, [fieldName]: text })
         console.log(commentData)
     }
 
@@ -134,9 +116,6 @@ const Reports = () => {
     //toggle comment text input
     const toggleCommentTextInput = () => {
         setCommentTextInput(!commentTextInput)
-        // if(commentTextInput === false){
-        //     setReportData({...reportData, {`comment-${report.length}: ''`}})
-        // }
     }
 
     return (

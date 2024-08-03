@@ -9,53 +9,51 @@ const OpenReportModal = ({ toggleOpenReportModal, toggleCommentTextInput, report
         <View style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0, zIndex: 10, backgroundColor: 'rgba(0, 0, 0, 0.5)', alignItems: 'center', justifyContent: 'center', flex: 1 }}>
             <View style={{ backgroundColor: 'green', width: '80%', maxHeight: '80%', borderRadius: 10, padding: 10 }}>
                 {loading && <View style={{ position: 'absolute', justifyContent: 'center', alignItems: 'center' }}><ActivityIndicator color={'blue'} size={30} /></View>}
-                <ScrollView>
+
+                <ScrollView style={{ marginVertical: 10 }}>
+                    {/* render reports */}
                     {report &&
-                        <View style={{backgroundColor: 'yellow', borderRadius: 5, padding: 10}}>
+                        <View style={{ backgroundColor: 'yellow', borderRadius: 5, padding: 10 }}>
                             <Text>{report[0].title}</Text>
                             <Text>{report[0].content}</Text>
 
                         </View>}
 
-                    {reportComments && reportComments[0] && reportComments[0].comment ?
-                        Object.values(reportComments[0].comment).map((item, index) => (
-                            <View key={ index } style={{backgroundColor: '#ffffff', borderRadius: 5, padding: 10, margin: 5}}>
-                                <Text>{item}</Text>
-                            </View>
-                        )) : null}
+                    {reportComments && reportComments.map((item) => (
+                        <View key={item._id} style={{ width: '80%', backgroundColor: '#ffffff', borderRadius: 10, padding: 10, marginTop: 10}}>
+                            <Text>{item.comment}</Text>
+                            <Text style={{textAlign: 'right', color: 'gray'}}>{item.createdAt}</Text>
+                        </View>
+                    ))}
 
 
+                    {/* text input for comment */}
                     {commentTextInput ?
                         <TextInput
-                            style={styles.textInput}
+                            style={[styles.textInput, {marginTop: 10}]}
                             placeholder='Write your comment...'
                             multiline={true} rows={2}
-                            onChangeText={(text) => handleCommentChange(text, `comment-0`)}
-                        /> : commentTextInput && report[0].comments ?
-                            <TextInput
-                                style={styles.textInput}
-                                placeholder='Write your comment...'
-                                multiline={true} rows={2}
-                                onChangeText={(text) => handleCommentChange(text, `comment-${report[0].comments.length}`)}
-                            /> : null}
-
+                            onChangeText={(text) => handleCommentChange(text, 'comment')}
+                        /> : null}
                 </ScrollView>
 
 
 
                 {/* action buttons */}
                 <View>
-                    <View style={{ flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'center', gap: 10 }}>
+                    <View>
                         <Pressable style={styles.button} onPress={() => { toggleCommentTextInput(); }}>
                             {commentTextInput ?
                                 <Text style={styles.buttonText}>Remove comment</Text> :
                                 <Text style={styles.buttonText}>Add comment</Text>
                             }
                         </Pressable>
+                    </View>
+                    <View style={{ flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'center', gap: 10 }}>
                         <Pressable style={styles.button} onPress={() => { toggleOpenReportModal(); setCommentTextInput(false); }}>
                             <Text style={styles.buttonText}>Close</Text>
                         </Pressable>
-                        <Pressable style={styles.button} onPress={() => { addComment(); }}>
+                        <Pressable style={styles.button} onPress={() => { addComment(); setCommentTextInput(false); }}>
                             <Text style={styles.buttonText}>Save comment</Text>
                         </Pressable>
                     </View>

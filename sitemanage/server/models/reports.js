@@ -8,7 +8,6 @@ const reportsSchema = new mongoose.Schema({
     content: {
         type: String
     },
-    comments: {},
     createdAt: {
         type: Date,
         default: Date.now
