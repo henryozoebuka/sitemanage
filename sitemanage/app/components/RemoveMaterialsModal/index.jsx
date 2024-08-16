@@ -2,6 +2,7 @@ import { StyleSheet, Text, View, ActivityIndicator, TextInput, Pressable, Alert 
 import React from 'react'
 import RNPickerSelect from 'react-native-picker-select'
 import { styles } from '../../constants/styles.js'
+import AntDesign from '@expo/vector-icons/AntDesign';
 
 const RemoveMaterialsModal = ({ toggleRemoveMaterialsModal, handleRemoveMaterialsChange, removeMaterials, removeMaterialsData, setRefreshFetchMaterials, refreshFetchMaterials }) => {
 
@@ -16,23 +17,25 @@ const RemoveMaterialsModal = ({ toggleRemoveMaterialsModal, handleRemoveMaterial
   return (
     <View style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0, alignItems: 'center', justifyContent: 'center', zIndex: 11, flex: 1, display: 'flex', backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
       <View style={{ backgroundColor: 'green', width: '80%', borderRadius: 20, padding: 20 }}>
-
-        <View>
-          <Text style={[styles.buttonText, styles.text20, {fontWeight: 'bold', textAlign: 'center', marginBottom: 20}]}>Remove Items</Text>
-        </View>
+      <Pressable onPress={() => { toggleRemoveMaterialsModal() }} style={{ justifyContent: 'center', alignItems: 'flex-end' }}>
+                    <AntDesign name="close" size={24} color="#ffffff" />
+                </Pressable>
+                {/* component title */}
+                <View>
+                    <Text style={[styles.text20, { color: '#ffffff', fontWeight: 'bold', marginBottom: 10 }]}>Remove item</Text>
+                </View>
+        <View style={{backgroundColor: '#ffffff', borderRadius: 25, height: 50, justifyContent: 'center'}}>
         <RNPickerSelect
           value={removeMaterialsData.name}
           onValueChange={(value) => handleRemoveMaterialsChange(value, 'name')}
           items={materials}
         />
+        </View>
 
         <TextInput value={removeMaterialsData.quantity} placeholder='Quantity' keyboardType='numeric' onChangeText={(text) => handleRemoveMaterialsChange(text, 'quantity')} style={[styles.textInput, {marginTop: 20}]} />
 
         <Pressable onPress={() => { removeMaterials(); toggleRemoveMaterialsModal(); setRefreshFetchMaterials(refreshFetchMaterials + 1) }} style={styles.button} >
           <Text style={styles.buttonText}>Remove</Text>
-        </Pressable>
-        <Pressable onPress={() => { toggleRemoveMaterialsModal() }} style={styles.button} >
-          <Text style={styles.buttonText}>Cancel</Text>
         </Pressable>
       </View>
     </View>

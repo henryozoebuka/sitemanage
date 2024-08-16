@@ -1,12 +1,20 @@
 import { View, Text, TextInput, Pressable, ActivityIndicator } from 'react-native'
 import React from 'react'
 import { styles } from '../../constants/styles'
+import AntDesign from '@expo/vector-icons/AntDesign';
 
 const TransferModal = ({ toggleTransferView, transferView, handleChange, handleTransfer, verifyAccount, transferData, loading, resetTransferData }) => {
 
     return (
         <View style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, zIndex: 10, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(0, 0, 0, 0.5)', display: transferView ? 'flex' : 'none' }}>
             <View style={{ backgroundColor: 'green', width: '80%', borderRadius: 20, padding: 20 }}>                
+            <Pressable onPress={()=>{toggleTransferView(); resetTransferData()}} style={{ justifyContent: 'center', alignItems: 'flex-end' }}>
+                    <AntDesign name="close" size={24} color="#ffffff" />
+                </Pressable>
+                {/* component title */}
+                <View>
+                    <Text style={[styles.text20, { color: '#ffffff', fontWeight: 'bold', marginBottom: 10 }]}>Transfer Fund</Text>
+                </View>
                 {loading? <ActivityIndicator size={30} color={'blue'}/> : verifyAccount && verifyAccount.username ? 
                     <View>                        
                         <Text>{verifyAccount.firstname}</Text>
@@ -20,9 +28,6 @@ const TransferModal = ({ toggleTransferView, transferView, handleChange, handleT
 
                 <Pressable onPress={handleTransfer} style={styles.button} >
                     <Text style={styles.buttonText}>Transfer</Text>
-                </Pressable>
-                <Pressable onPress={()=>{toggleTransferView(); resetTransferData()}} style={styles.button} >
-                    <Text style={styles.buttonText}>Cancel</Text>
                 </Pressable>
             </View>
         </View>

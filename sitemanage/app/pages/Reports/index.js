@@ -1,4 +1,4 @@
-import { Pressable, TextInput, Text, ScrollView, View, Alert } from 'react-native'
+import { SafeAreaView, Pressable, Text, ScrollView, View, Alert } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { styles } from '../../constants/styles'
 import WriteReportsModal from '../../components/WriteReportModal'
@@ -78,7 +78,6 @@ const Reports = () => {
             const response = await axios.get(`${url}/fetchcomments/${reportId}`)
             if(response.status === 200){
                 setReportComments(response.data)
-                console.log(response.data)
             }
             else{
                 alert(response.data.message)
@@ -96,7 +95,6 @@ const Reports = () => {
     //handle comment text input
     const handleCommentChange = (text, fieldName) => {
         setCommentData({commentId: report[0]._id, [fieldName]: text })
-        console.log(commentData)
     }
 
     // toggle report modal
@@ -119,15 +117,15 @@ const Reports = () => {
     }
 
     return (
-        <View style={{ flex: 1, backgroundColor: 'green', padding: 10 }}>
+        <SafeAreaView style={styles.safeAreaView}>
             {/* action buttons   */}
             <ScrollView>
 
                 {reports && reports.length ?
                     reports.map((item) => (
                         <Pressable key={item._id} onPress={()=>{toggleOpenReportModal(), individualReport(item._id); fetchReportComments(item._id);}}>
-                        <View style={{ borderRadius: 10, backgroundColor: '#ffffff', borderWidth: 2, borderColor: '#000000', marginBottom: 10 }}>
-                            <Text style={[styles.text15, { fontWeight: 'bold', textAlign: 'center' }]}>{item.title}</Text>
+                        <View style={{ borderRadius: 10, backgroundColor: '#ffffff', borderWidth: 2, borderColor: 'blue', marginBottom: 10 }}>
+                            <Text style={[styles.text15, { fontWeight: 'bold', textAlign: 'center', color: 'blue' }]}>{item.title}</Text>
                             <View>
                                 <Text style={[styles.text15]}>{item.content}</Text>
                             </View>
@@ -158,7 +156,7 @@ const Reports = () => {
 
             {/* open report modal */}
             {openReportModal && <OpenReportModal handleCommentChange={handleCommentChange} toggleOpenReportModal={toggleOpenReportModal} addComment={addComment} report={report} commentContents={commentContents} toggleCommentTextInput={toggleCommentTextInput} commentTextInput={commentTextInput} setCommentTextInput={setCommentTextInput} loading={loading} setLoading={setLoading} reportComments={reportComments} />}
-        </View>
+        </SafeAreaView>
     )
 }
 

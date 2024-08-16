@@ -119,7 +119,8 @@ export const styles = {
     },
 
     safeAreaView : {
-        padding: 20
+        padding: 20,
+        flex: 1
     },
 
     view: {

@@ -32,7 +32,6 @@ const Users = () => {
     const handleDelete = async (id) => {
         try {
             const response = await axios.delete(`${url}/user/${id}`)
-            // dispatch(setUsers(prevUsers => prevUsers.filter(items => items._id != id)))
             alert(response.data.message)
             fetchUsers()
         } catch (error) {
@@ -60,24 +59,49 @@ const Users = () => {
 
     return (
 
-        <SafeAreaView style={{ flex: 1 }}>
+        <SafeAreaView style={styles.safeAreaView}>
             <View>
-                <TextInput onChangeText={(text) => handleSearch(text)} style={styles.textInput} />
+                <TextInput placeholder='Search user' onChangeText={(text) => handleSearch(text)} style={styles.textInput} />
             </View>
             <ScrollView>
                 {
                     dataToRender.map((item, index) => (
                         <Pressable key={index} onPress={() => navigation.navigate('Other User', { id: item._id })}>
-                            <Text>Account Number: {item.accountNumber}</Text>
                             {item.photo ? <Image source={ { uri: `${url}/${item.photo}` } } />: <AntDesign name="adduser" size={50} color="black" />}
-                            <Text>{item.username}</Text>
-                            <Text>{item.firstname}</Text>
-                            <Text>{item.lastname}</Text>
-                            <Text>{item.gender}</Text>
-                            <Text>{item.balance}</Text>
-                            <Text>{item.role}</Text>
-                            <Text>{item.accountNumber}</Text>
-                            <Text>{item.createdAt}</Text>
+                            <View style={{flexDirection: 'row'}}>
+                                <Text style={{fontWeight: 'bold'}}>Username: </Text>
+                                <Text>{item.username}</Text>
+                            </View>
+                            <View style={{flexDirection: 'row'}}>
+                                <Text style={{fontWeight: 'bold'}}>Firstname: </Text>
+                                <Text>{item.firstname}</Text>
+                            </View>
+                            <View style={{flexDirection: 'row'}}>
+                                <Text style={{fontWeight: 'bold'}}>Lastname: </Text>
+                                <Text>{item.lastname}</Text>
+                            </View>
+                            <View style={{flexDirection: 'row'}}>
+                                <Text style={{fontWeight: 'bold'}}>Gender: </Text>
+                                <Text>{item.gender}</Text>
+                            </View>
+                            <View style={{flexDirection: 'row'}}>
+                                <Text style={{fontWeight: 'bold'}}>Balance: </Text>
+                                <Text>{item.balance}</Text>
+                            </View>
+                            <View style={{flexDirection: 'row'}}>
+                                <Text style={{fontWeight: 'bold'}}>Role: </Text>
+                                <Text>{item.role}</Text>
+                            </View>
+                            <View style={{flexDirection: 'row'}}>
+                                <Text style={{fontWeight: 'bold'}}>Account number: </Text>
+                                <Text>{item.accountNumber}</Text>
+                            </View>
+                            <View style={{flexDirection: 'row'}}>
+                                <Text style={{fontWeight: 'bold'}}>Created: </Text>
+                                <Text>{item.createdAt}</Text>
+                            </View>
+
+                            
                             <Pressable style={styles.button} onPress={() => { toggleDeleteModal(); setUserToDelete(item._id) }}>
                                 <Text style={styles.buttonText}>Delete User</Text>
                             </Pressable>
@@ -86,7 +110,7 @@ const Users = () => {
                             <Modal visible={deleteModal} animationType='slide' transparent={false}>
                                 <View style={{ marginVertical: 'auto' }}>
                                     <View>
-                                        <Text style={styles.text20}>Are you sure you want to delete the user account? ({userToDelete})</Text>
+                                        <Text style={styles.text20}>Are you sure you want to delete this user? ({userToDelete})</Text>
                                     </View>
                                     <Pressable onPress={() => { handleDelete(userToDelete); toggleDeleteModal() }} style={styles.button}>
                                         <Text style={styles.buttonText}>Yes, delete!</Text>

@@ -1,4 +1,4 @@
-import { Pressable, Text, View } from 'react-native'
+import { SafeAreaView, Pressable, Text, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { styles } from '../../constants/styles'
 import { useSelector } from 'react-redux'
@@ -24,7 +24,7 @@ const OtherUser = ({ route }) => {
   }
 
   return (
-    <View>
+    <SafeAreaView style={styles.safeAreaView}>
       <View>
         <Text>Account Number: {otherUser.accountNumber}</Text>
         <Text>Username: {otherUser.username}</Text>
@@ -38,7 +38,7 @@ const OtherUser = ({ route }) => {
           <Text style={styles.buttonText}>Edit Profile</Text>
         </Pressable>
       </View>
-    </View>
+    </SafeAreaView>
 
   )
 }

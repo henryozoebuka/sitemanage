@@ -1,4 +1,4 @@
-import { Pressable, Picker, Text, View, TextInput, Image } from 'react-native'
+import { SafeAreaView, Pressable, Picker, Text, View, TextInput, Image } from 'react-native'
 import { styles } from '../../constants/styles.js'
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
@@ -16,12 +16,6 @@ const EditUser = ({ route }) => {
   const { id } = route.params
   const [image, setImage] = useState(null)
   const [userToEdit, setUserToEdit] = useState({
-    // firstname: '',
-    // lastname: '',
-    // gender: '',
-    // role: '',
-    // status: '',
-    // photo: '',
   })
   useEffect(() => {
     fetchUser()
@@ -106,7 +100,7 @@ const EditUser = ({ route }) => {
 
 
   return (
-    <View style={styles.safeAreaView}>
+    <SafeAreaView style={styles.safeAreaView}>
       <View style={{ position: 'relative', borderRadius: 50, borderWidth: 3, borderColor: 'gray', height: 100, width: 100, alignItems: 'center', justifyContent: 'center', margin: 'auto' }}>
         {image ? <Image source={{ uri: image }} style={{ height: '100%', width: '100%', borderRadius: 50 }} /> : userToEdit.photo ? <Image source={{ uri: `${url}/${userToEdit.photo}` }} /> : <View><AntDesign name="adduser" size={40} color="black" /></View>}
 
@@ -146,7 +140,7 @@ const EditUser = ({ route }) => {
       <Pressable style={styles.button}>
         <Text style={styles.buttonText} onPress={() => handleSubmit(userToEdit._id)}>Update</Text>
       </Pressable>
-    </View>
+    </SafeAreaView>
   )
 }
 

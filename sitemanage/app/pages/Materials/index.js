@@ -1,4 +1,4 @@
-import { Pressable, TextInput, Text, View, Alert } from 'react-native'
+import { SafeAreaView, Pressable, TextInput, Text, View, Alert } from 'react-native'
 import { styles } from '../../constants/styles.js'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -11,6 +11,7 @@ import RemoveMaterialsModal from '../../components/RemoveMaterialsModal/index.js
 import ItemsSummaryModal from '../../components/ItemsSummaryModal/index.jsx'
 import { setAddMaterialsData } from '../../../redux/addMaterialsData.js'
 import {setMyUsedItems} from '../../../redux/myUsedItems.js'
+import moment from 'moment'
 
 
 const Materials = () => {
@@ -222,7 +223,7 @@ const Materials = () => {
 
 
     return (
-        <View style={{ marginHorizontal: 20, flex: 1 }}>
+        <SafeAreaView style={styles.safeAreaView}>
             <Text style={{ textAlign: 'center', color: 'blue', fontWeight: 'bold', fontSize: 30 }}>Materials</Text>
             {/* items search */}
             <View>
@@ -243,7 +244,7 @@ const Materials = () => {
                                         <Text>Quantity: {item.quantity}</Text>
                                         {item.addedBy && <Text>Added By: {item.addedBy.firstname}</Text>}
                                         {item.removedBy && <Text>Removed By: {item.removedBy.firstname}</Text>}
-                                        <Text>Date added: {item.createdAt}</Text>
+                                        <Text>Date added: {moment(item.createdAt).format('dddd, MMMM DD, YYYY - hh:mm a')}</Text>
                                     </Pressable>
                                 )) :
 
@@ -254,7 +255,7 @@ const Materials = () => {
                                             <Text>Quantity: {item.quantity}</Text>
                                             {item.addedBy && <Text>Added By: {item.addedBy.firstname}</Text>}
                                             {item.removedBy && <Text>Removed By: {item.removedBy.firstname}</Text>}
-                                            <Text>Date added: {item.createdAt}</Text>
+                                            <Text>Date added: {moment(item.createdAt).format('dddd, MMMM DD, YYYY - hh:mm a')}</Text>
                                         </Pressable>
                                     )) :
                                     <Text>No data to show</Text>
@@ -265,16 +266,16 @@ const Materials = () => {
             {/* action buttons */}
             <View style={{ display: 'grid', gridTemplateRows: '1fr 1fr', gap: 5, gridTemplateColumns: '50% 50%' }}>
                 {user.role === 'admin' && <Pressable onPress={() => { toggleAddMaterialsModal() }} style={styles.button}>
-                    <Text style={styles.buttonText}>Add Materials</Text>
+                    <Text style={[styles.buttonText, {textAlign: 'center'}]}>Add Item</Text>
                 </Pressable>}
                 <Pressable style={styles.button} onPress={() => { toggleItemsSummaryModal(); setRefreshFetchMaterials(refreshFetchMaterials) }} >
-                    <Text style={styles.buttonText}>Items In Stock</Text>
+                    <Text style={[styles.buttonText, {textAlign: 'center'}]}>Stock</Text>
                 </Pressable>
                 <Pressable style={styles.button} onPress={() => { toggleRemoveMaterialsModal() }} >
-                    <Text style={styles.buttonText}>Remove Items</Text>
+                    <Text style={[styles.buttonText, {textAlign: 'center'}]}>Remove Item</Text>
                 </Pressable>
                 <Pressable style={styles.button} onPress={() => { toggleMyUsedItemsModal(); setRefreshFetchMaterials(refreshFetchMaterials) }} >
-                    <Text style={styles.buttonText}>My Used Items</Text>
+                    <Text style={[styles.buttonText, {textAlign: 'center'}]}>Used Items</Text>
                 </Pressable>
             </View>
 
@@ -295,7 +296,7 @@ const Materials = () => {
             {myUsedItemsModal &&
                 <MyUsedItemsModal data={myUsedItems} toggleMyUsedItemsModal={toggleMyUsedItemsModal} loading={loading} setLoading={setLoading} />
             }
-        </View>
+        </SafeAreaView>
     )
 }
 

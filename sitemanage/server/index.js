@@ -7,6 +7,8 @@ import materialsRouter from './routes/materialsRoute.js'
 import transactionsRouter from './routes/transactionsRoute.js'
 import reportsRouter from './routes/reportsRoute.js'
 import reportCommentsRouter from './routes/reportCommentsRoute.js'
+import ExpensesRouter from './routes/expensesRoute.js'
+import toDoRouter from './routes/toDoRoute.js'
 
 const start =  async () => {
     const app = express();
@@ -17,6 +19,8 @@ const start =  async () => {
     app.use('/', transactionsRouter)
     app.use('/', reportsRouter)
     app.use('/', reportCommentsRouter)
+    app.use('/', ExpensesRouter)
+    app.use('/', toDoRouter)
     app.use("/uploads", express.static('uploads'))
     
     const port = process.env.PORT

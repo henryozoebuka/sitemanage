@@ -8,11 +8,10 @@ import userReducer from './user.js'
 import transferDataReducer from './transferData.js'
 import users from './users.js'
 import transactionsReducer from './transactions.js'
-import { setMenuFalse } from './menu.js'
-import { setAddMaterialsData } from './addMaterialsData.js'
 import addMaterialsDataReducer from './addMaterialsData.js';
-import myUsedItems from './myUsedItems.js'
-import {setMyUsedItems} from './myUsedItems.js'
+import myUsedItems from './myUsedItems.js';
+import todoCompleted from './todoCompleted.js';
+import todoUpdateData from './todoUpdateData.js';
 
 
 export default configureStore({
@@ -26,8 +25,9 @@ export default configureStore({
         transferData: transferDataReducer,
         users,
         transactions: transactionsReducer,
-        setMenuFalse,
         addMaterialsData: addMaterialsDataReducer,
         myUsedItems,
+        todoCompleted,
+        todoUpdateData
     }
 })

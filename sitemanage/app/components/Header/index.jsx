@@ -1,16 +1,16 @@
-import { Pressable, StyleSheet, Text, View } from 'react-native'
-import React, { useEffect, useRef } from 'react'
+import { Pressable, Text, View } from 'react-native'
+import React from 'react'
 import { styles } from '../../constants/styles.js'
 import { useNavigation } from '@react-navigation/native'
 import { useDispatch, useSelector } from 'react-redux'
-import { toggleMenu, setMenuFalse } from '../../../redux/menu'
+import { toggleMenu } from '../../../redux/menu'
 
 const Header = () => {
     const { user } = useSelector(state => state.user)
     const { loggedIn } = useSelector(state => state.login)
     const navigation = useNavigation()
     const dispatch = useDispatch()
-    const menuRef = useRef(null)
+
 
     const handlePress = (item) => {
         navigation.navigate(item)
@@ -18,34 +18,21 @@ const Header = () => {
     }
 
     const { menu } = useSelector(state => state.menuState)
-    const menuList = [!loggedIn && 'Sign Up', !loggedIn && 'Login', loggedIn && user.role === 'admin' && 'Users', 'Materials', 'My Profile', 'Test']
+    const menuList = [!loggedIn && 'Sign Up', !loggedIn && 'Login', loggedIn && user.role === 'admin' && 'Users', 'Materials', 'My Profile', 'Expenses']
     const menuListA = ['Sign Up', 'Login']
-    const menuListB = [user.role === 'admin' && 'Users', 'Materials', 'My Profile', 'Test', 'Reports']
-
-    // useEffect(() => {
-    //     const handleOutsidePress = (event) => {
-    //         // Check if menuRef.current exists and event.target is not within menuRef
-    //         if (menuRef.current && !menuRef.current.contains(event.target)) {
-    //             dispatch(setMenuFalse())
-    //         }
-    //     }
-
-    //     return () => {
-    //         // Clean up the event listener
-    //         // document.removeEventListener('mousedown', handleOutsidePress)
-    //     }
-    // }, [menuRef, dispatch])
+    const menuListB = [user.role === 'admin' && 'Users', 'Materials', 'My Profile', 'Expenses', 'Reports', 'To Do']
 
     const menuToRender = !loggedIn ? menuListA : menuListB
 
     return (
-        <View>
-            {menu && menuToRender ? menuToRender.map((item, index) => (
-                <Pressable key={index} onPress={() => handlePress(item)}>
-                    <Text style={styles.text20}>{item}</Text>
-                </Pressable>
-            )) : null}
+        <View style={{ display: menu ? 'flex': 'none', position: 'absolute', top: 100, left: 0, zIndex: 11, borderWidth: 2, borderColor: 'blue', borderTopRightRadius: 10, borderBottomRightRadius: 10, padding: 20, backgroundColor: '#ffffff' }}>
+            {/* {menu && menuToRender ? menuToRender.map((item, index) => (
+            <Pressable key={index} onPress={() => handlePress(item)}>
+                <Text style={styles.text20}>{item}</Text>
+            </Pressable>
+        )) : null}     */}
         </View>
+        
     )
 }
 

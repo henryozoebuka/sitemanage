@@ -3,15 +3,11 @@ import React from 'react'
 import RNPickerSelect from 'react-native-picker-select'
 import { useSelector } from 'react-redux'
 import { styles } from '../../constants/styles.js'
+import AntDesign from '@expo/vector-icons/AntDesign';
 
 const AddMaterialsModal = ({ toggleAddMaterialsModal, handleChange, addMaterials, verifyAccount, addMaterialsData, loading, setRefreshFetchMaterials, refreshFetchMaterials }) => {
   
   const { user } = useSelector(state => state.user)
-
-  const materialAddedAlert = () => {
-    Alert.alert(`${addMaterialsData.quantity} of ${addMaterialsData.name} added successfully`)
-  }
-
 
   const materials = [
     { label: 'Cement', value: 'Cement' },
@@ -23,6 +19,13 @@ const AddMaterialsModal = ({ toggleAddMaterialsModal, handleChange, addMaterials
   return (
     <View style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0, alignItems: 'center', justifyContent: 'center', zIndex: 11, flex: 1, display: 'flex', backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
       <View style={{ backgroundColor: 'green', width: '80%', borderRadius: 20, padding: 20 }}>
+      <Pressable onPress={() => { toggleAddMaterialsModal() }} style={{ justifyContent: 'center', alignItems: 'flex-end' }}>
+          <AntDesign name="close" size={24} color="#ffffff" />
+        </Pressable>
+        {/* component title */}
+        <View>
+          <Text style={[styles.text20, {color: '#ffffff', fontWeight: 'bold', marginBottom: 10}]}>Add Material</Text>
+        </View>
         {loading ? <ActivityIndicator size={30} color={'blue'} /> : verifyAccount && verifyAccount.username ?
           <View>
             <Text>{verifyAccount?.firstname}</Text>
@@ -37,20 +40,19 @@ const AddMaterialsModal = ({ toggleAddMaterialsModal, handleChange, addMaterials
     
 
 {user.role === 'admin' &&
+  <View style={{backgroundColor: '#ffffff', borderRadius: 25, height: 50, justifyContent: 'center', marginBottom: 10}}>
   <RNPickerSelect
     value={addMaterialsData.name} // Use addMaterialsData.name as the value
     onValueChange={(value) => handleChange(value, 'name')} // Update addMaterialsData.name on change
     items={materials}
   />
+  </View>
 }
 
 <TextInput value={addMaterialsData.quantity} placeholder='Quantity' keyboardType='numeric' onChangeText={(text) => handleChange(text, 'quantity')} style={styles.textInput} />
 
         <Pressable onPress={()=>{addMaterials(); toggleAddMaterialsModal() }} style={styles.button} >
           <Text style={styles.buttonText}>Add</Text>
-        </Pressable>
-        <Pressable onPress={() => { toggleAddMaterialsModal() }} style={styles.button} >
-          <Text style={styles.buttonText}>Cancel</Text>
         </Pressable>
       </View>
     </View>
