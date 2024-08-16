@@ -11,6 +11,7 @@ import TransactionsModal from '../../components/TransactionsModal/index.jsx';
 import axios from 'axios'
 import EditProfileModal from '../../components/EditProfileModal/index.jsx'
 
+
 const User = () => {
 
   const { url } = useSelector(state => state.baseURL)
@@ -22,9 +23,7 @@ const User = () => {
   const [myTransactionsModal, setMyTransactionsModal] = useState(false)
   const [verifyAccount, setVerifyAccount] = useState({})
   const [editProfileData, setEditProfileData] = useState({})
-  // const [transferData, setTransferData] = useState({
-  //   sender: user._id
-  // })
+  
   const dispatch = useDispatch()
   
   const [loading, setLoading] = useState(false)
@@ -50,6 +49,7 @@ const User = () => {
     }
   }
 
+
   //handle edit profile submit
   const editProfile = async () => {
     try {
@@ -70,7 +70,6 @@ const User = () => {
     console.log(error)
   }
   }
-  
 
   //fetch user balance
   const fetchUserBalance = async () => {
@@ -165,6 +164,7 @@ const User = () => {
     setEditProfileModal(!editProfileModal)
   }
 
+  
   const resetTransferData = () => {
     dispatch(setTransferData({...transferData, 
           receiver: '',
@@ -232,7 +232,7 @@ const User = () => {
           <Text style={styles.buttonText}>Transactions History</Text>
         </Pressable>
 
-        <Pressable style={styles.button} onPress={toggleEditProfileModal}>
+        <Pressable style={styles.button} onPress={()=>{toggleEditProfileModal(); }}>
           <Text style={styles.buttonText}>Edit Profile</Text>
         </Pressable>
       </View>

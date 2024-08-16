@@ -7,10 +7,12 @@ import { useDispatch, useSelector } from 'react-redux'
 import { setUsers } from '../../../redux/users'
 import axios from 'axios'
 
+
 const Users = () => {
     const dispatch = useDispatch()
     const { url } = useSelector(state => state.baseURL)
     const { users } = useSelector(state => state.users)
+    const { user } = useSelector(state => state.user)
     const [searchResult, setSearchResult] = useState([])
     const [deleteModal, setDeleteModal] = useState(false)
     const [userToDelete, setUserToDelete] = useState(null)
@@ -28,6 +30,7 @@ const Users = () => {
             console.log(error)
         }
     }
+
 
     const handleDelete = async (id) => {
         try {
@@ -67,41 +70,41 @@ const Users = () => {
                 {
                     dataToRender.map((item, index) => (
                         <Pressable key={index} onPress={() => navigation.navigate('Other User', { id: item._id })}>
-                            {item.photo ? <Image source={ { uri: `${url}/${item.photo}` } } />: <AntDesign name="adduser" size={50} color="black" />}
-                            <View style={{flexDirection: 'row'}}>
-                                <Text style={{fontWeight: 'bold'}}>Username: </Text>
+                            {item.photo ? <Image source={{ uri: `${url}/${item.photo}` }} /> : <AntDesign name="adduser" size={50} color="black" />}
+                            <View style={{ flexDirection: 'row' }}>
+                                <Text style={{ fontWeight: 'bold' }}>Username: </Text>
                                 <Text>{item.username}</Text>
                             </View>
-                            <View style={{flexDirection: 'row'}}>
-                                <Text style={{fontWeight: 'bold'}}>Firstname: </Text>
+                            <View style={{ flexDirection: 'row' }}>
+                                <Text style={{ fontWeight: 'bold' }}>Firstname: </Text>
                                 <Text>{item.firstname}</Text>
                             </View>
-                            <View style={{flexDirection: 'row'}}>
-                                <Text style={{fontWeight: 'bold'}}>Lastname: </Text>
+                            <View style={{ flexDirection: 'row' }}>
+                                <Text style={{ fontWeight: 'bold' }}>Lastname: </Text>
                                 <Text>{item.lastname}</Text>
                             </View>
-                            <View style={{flexDirection: 'row'}}>
-                                <Text style={{fontWeight: 'bold'}}>Gender: </Text>
+                            <View style={{ flexDirection: 'row' }}>
+                                <Text style={{ fontWeight: 'bold' }}>Gender: </Text>
                                 <Text>{item.gender}</Text>
                             </View>
-                            <View style={{flexDirection: 'row'}}>
-                                <Text style={{fontWeight: 'bold'}}>Balance: </Text>
+                            <View style={{ flexDirection: 'row' }}>
+                                <Text style={{ fontWeight: 'bold' }}>Balance: </Text>
                                 <Text>{item.balance}</Text>
                             </View>
-                            <View style={{flexDirection: 'row'}}>
-                                <Text style={{fontWeight: 'bold'}}>Role: </Text>
+                            <View style={{ flexDirection: 'row' }}>
+                                <Text style={{ fontWeight: 'bold' }}>Role: </Text>
                                 <Text>{item.role}</Text>
                             </View>
-                            <View style={{flexDirection: 'row'}}>
-                                <Text style={{fontWeight: 'bold'}}>Account number: </Text>
+                            <View style={{ flexDirection: 'row' }}>
+                                <Text style={{ fontWeight: 'bold' }}>Account number: </Text>
                                 <Text>{item.accountNumber}</Text>
                             </View>
-                            <View style={{flexDirection: 'row'}}>
-                                <Text style={{fontWeight: 'bold'}}>Created: </Text>
+                            <View style={{ flexDirection: 'row' }}>
+                                <Text style={{ fontWeight: 'bold' }}>Created: </Text>
                                 <Text>{item.createdAt}</Text>
                             </View>
 
-                            
+
                             <Pressable style={styles.button} onPress={() => { toggleDeleteModal(); setUserToDelete(item._id) }}>
                                 <Text style={styles.buttonText}>Delete User</Text>
                             </Pressable>

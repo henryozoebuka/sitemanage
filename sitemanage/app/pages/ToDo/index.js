@@ -115,7 +115,7 @@ const ToDo = () => {
                     ...data.filter(item => item.completed === true)
                  ].map((item) => (
                     <Pressable onPress={()=>{toggleUpdateTodoModal(); getUpdateData(item._id)}} key={item._id} style={{ backgroundColor: '#ffffff', borderRadius: 10, padding: 10, marginBottom: 10 }}>
-                        {item.completed === true && <View style={{position: 'absolute', top: '0', bottom: '0', right: '0', left: '0', zIndex: 2, borderRadius: 10, backgroundColor: 'rgba(0, 255, 0, 0.5)', alignItems: 'center', justifyContent: 'center'}}>
+                        {item.completed === true && <View style={{position: 'absolute', top: 0, bottom: 0, right: 0, left: 0, zIndex: 2, borderRadius: 10, backgroundColor: 'rgba(0, 255, 0, 0.5)', alignItems: 'center', justifyContent: 'center'}}>
                             <Text style={{color: '#ffffff', fontWeight: 'bold', fontSize: 30}}>Completed</Text>
                             </View>}
                         <Text style={{ fontWeight: 'bold' }}>{item.title}</Text>
