@@ -7,13 +7,13 @@ const TransferModal = ({ toggleTransferView, transferView, handleChange, handleT
 
     return (
         <View style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, zIndex: 10, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(0, 0, 0, 0.5)', display: transferView ? 'flex' : 'none' }}>
-            <View style={{ backgroundColor: 'green', width: '80%', borderRadius: 20, padding: 20 }}>                
+            <View style={{ backgroundColor: '#00f0ff', width: '80%', borderRadius: 20, padding: 20 }}>                
             <Pressable onPress={()=>{toggleTransferView(); resetTransferData()}} style={{ justifyContent: 'center', alignItems: 'flex-end' }}>
                     <AntDesign name="close" size={24} color="#ffffff" />
                 </Pressable>
                 {/* component title */}
-                <View>
-                    <Text style={[styles.text20, { color: '#ffffff', fontWeight: 'bold', marginBottom: 10 }]}>Transfer Fund</Text>
+                <View style={{marginBottom: 20}}>
+                    <Text style={[styles.text20, { color: 'blue', fontWeight: 'bold', textAlign: 'center' }]}>Transfer Fund</Text>
                 </View>
                 {loading? <ActivityIndicator size={30} color={'blue'}/> : verifyAccount && verifyAccount.username ? 
                     <View>                        
@@ -26,7 +26,7 @@ const TransferModal = ({ toggleTransferView, transferView, handleChange, handleT
                 <TextInput value={transferData.receiverAccountNumber} placeholder='Account Number' onChangeText={(text) => handleChange(text, 'receiverAccountNumber')} style={styles.textInput} />
                 <TextInput value={transferData.amount} placeholder='Amount' onChangeText={(text) => handleChange(text, 'amount')} style={styles.textInput} />
 
-                <Pressable onPress={handleTransfer} style={styles.button} >
+                <Pressable onPress={handleTransfer} style={[styles.button, {marginTop: 10}]} >
                     <Text style={styles.buttonText}>Transfer</Text>
                 </Pressable>
             </View>

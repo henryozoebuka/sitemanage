@@ -15,9 +15,6 @@ const Login = () => {
   const { loggedIn } = useSelector(state => state.login)
 
   useEffect(() => {
-    // if (loggedIn) {
-    //   navigation.navigate("My Profile");
-    // }
   }, [loggedIn]);
 
   const [data, setData] = useState({})

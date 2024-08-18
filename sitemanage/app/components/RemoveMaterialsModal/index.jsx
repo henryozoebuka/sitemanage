@@ -16,13 +16,13 @@ const RemoveMaterialsModal = ({ toggleRemoveMaterialsModal, handleRemoveMaterial
   ];
   return (
     <View style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0, alignItems: 'center', justifyContent: 'center', zIndex: 11, flex: 1, display: 'flex', backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
-      <View style={{ backgroundColor: 'green', width: '80%', borderRadius: 20, padding: 20 }}>
+      <View style={{ backgroundColor: '#00f0ff', width: '80%', borderRadius: 20, padding: 20 }}>
       <Pressable onPress={() => { toggleRemoveMaterialsModal() }} style={{ justifyContent: 'center', alignItems: 'flex-end' }}>
                     <AntDesign name="close" size={24} color="#ffffff" />
                 </Pressable>
                 {/* component title */}
-                <View>
-                    <Text style={[styles.text20, { color: '#ffffff', fontWeight: 'bold', marginBottom: 10 }]}>Remove item</Text>
+                <View style={{marginBottom: 10}}>
+                    <Text style={[styles.text20, { color: 'blue', fontWeight: 'bold', marginBottom: 10, textAlign: 'center' }]}>Remove item</Text>
                 </View>
         <View style={{backgroundColor: '#ffffff', borderRadius: 25, height: 50, justifyContent: 'center'}}>
         <RNPickerSelect
@@ -34,7 +34,7 @@ const RemoveMaterialsModal = ({ toggleRemoveMaterialsModal, handleRemoveMaterial
 
         <TextInput value={removeMaterialsData.quantity} placeholder='Quantity' keyboardType='numeric' onChangeText={(text) => handleRemoveMaterialsChange(text, 'quantity')} style={[styles.textInput, {marginTop: 20}]} />
 
-        <Pressable onPress={() => { removeMaterials(); toggleRemoveMaterialsModal(); setRefreshFetchMaterials(refreshFetchMaterials + 1) }} style={styles.button} >
+        <Pressable onPress={() => { removeMaterials(); toggleRemoveMaterialsModal(); setRefreshFetchMaterials(refreshFetchMaterials + 1) }} style={[styles.button, {marginTop: 10}]} >
           <Text style={styles.buttonText}>Remove</Text>
         </Pressable>
       </View>

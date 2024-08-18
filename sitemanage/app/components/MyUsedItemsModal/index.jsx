@@ -35,25 +35,25 @@ const MyUsedItemsModal = ({ data, toggleMyUsedItemsModal, loading, setLoading })
 
   return (
     <View style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0, alignItems: 'center', justifyContent: 'center', zIndex: 11, flex: 1, display: 'flex', backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
-      <View style={{ backgroundColor: 'green', maxHeight: '80%', width: '80%', borderRadius: 20, padding: 20 }}>
+      <View style={{ backgroundColor: '#00f0ff', maxHeight: '80%', width: '80%', borderRadius: 20, padding: 20 }}>
       <Pressable onPress={() => { toggleMyUsedItemsModal() }} style={{ justifyContent: 'center', alignItems: 'flex-end' }}>
                     <AntDesign name="close" size={24} color="#ffffff" />
                 </Pressable>
                 {/* component title */}
                 <View>
-                    <Text style={[styles.text20, { color: '#ffffff', fontWeight: 'bold', marginBottom: 10 }]}>My Used Items</Text>
+                    <Text style={[styles.text20, { color: 'blue', fontWeight: 'bold', marginBottom: 10, textAlign: 'center' }]}>My Used Items</Text>
                 </View>
         <View>
-          <View style={{ backgroundColor: 'gray', marginVertical: 10, padding: 10, borderRadius: 10 }}>
-            <Text style={{ fontWeight: 'bold', fontSize: 15, textAlign: 'center', paddingBottom: 5 }}>Summary of used items: </Text>
-            <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 5 }}>
+          <View style={{ backgroundColor: '#D3D3D3', marginVertical: 10, padding: 10, borderRadius: 10 }}>
+            <Text style={{ fontWeight: 'bold', fontSize: 15, textAlign: 'center', paddingBottom: 5, color: 'blue' }}>Summary of used items: </Text>
+            <ScrollView style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 5 }}>
               {Object.keys(myUsedItemsSummary).map((item, index) => (
-                <View key={index} style={{ display: 'flex', flexDirection: 'row', borderRadius: 5, backgroundColor: 'orange', }}>
+                <View key={index} style={{ display: 'flex', flexDirection: 'row', borderRadius: 5, backgroundColor: 'orange', marginBottom: 5}}>
                   <Text style={{ fontWeight: 'bold' }}>{item}: </Text>
                   <Text>{myUsedItemsSummary[item]}</Text>
                 </View>
               ))}
-            </View>
+            </ScrollView>
           </View>
         </View>
         <ScrollView>

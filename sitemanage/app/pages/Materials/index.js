@@ -10,7 +10,7 @@ import MyUsedItemsModal from '../../components/MyUsedItemsModal/index.jsx'
 import RemoveMaterialsModal from '../../components/RemoveMaterialsModal/index.jsx'
 import ItemsSummaryModal from '../../components/ItemsSummaryModal/index.jsx'
 import { setAddMaterialsData } from '../../../redux/addMaterialsData.js'
-import {setMyUsedItems} from '../../../redux/myUsedItems.js'
+import { setMyUsedItems } from '../../../redux/myUsedItems.js'
 import moment from 'moment'
 
 
@@ -18,7 +18,7 @@ const Materials = () => {
     const { url } = useSelector(state => state.baseURL)
     const dispatch = useDispatch()
     const { user } = useSelector(state => state.user)
-    const {myUsedItems} = useSelector(state => state.myUsedItems)
+    const { myUsedItems } = useSelector(state => state.myUsedItems)
     const { addMaterialsData } = useSelector(state => state.addMaterialsData)
     const [data, setData] = useState([])
     // const [myUsedItems, setMyUsedItems] = useState([])
@@ -239,23 +239,57 @@ const Materials = () => {
                         emptySearch ? <Text>No result for your search.</Text> :
                             render.length > 0 ?
                                 render.map((item, index) => (
-                                    <Pressable key={index} style={[styles.view, { backgroundColor: 'green', borderRadius: 10, marginBottom: 10 }]}>
-                                        <Text>Item: {item.name}</Text>
-                                        <Text>Quantity: {item.quantity}</Text>
-                                        {item.addedBy && <Text>Added By: {item.addedBy.firstname}</Text>}
-                                        {item.removedBy && <Text>Removed By: {item.removedBy.firstname}</Text>}
-                                        <Text>Date added: {moment(item.createdAt).format('dddd, MMMM DD, YYYY - hh:mm a')}</Text>
+                                    <Pressable key={index} style={[styles.view, { backgroundColor: '#00f0ff', borderRadius: 10, marginBottom: 10 }]}>
+                                        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                            <Text style={{ fontWeight: 'bold' }}>Item: </Text>
+                                            <Text>{item.name}</Text>
+                                        </View>
+
+                                        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                                <Text style={{ fontWeight: 'bold' }}>Quantity: </Text>
+                                                <Text>{item.quantity}</Text>
+                                            </View>
+
+                                            {item.addedBy && <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                                <Text style={{ fontWeight: 'bold' }}>Added by: </Text>
+                                                <Text>{item.addedBy.firstname}</Text>
+                                            </View>}
+                                            {item.removedBy && <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                                <Text style={{ fontWeight: 'bold' }}>Removed by: </Text>
+                                                <Text>{item.removedBy.firstname}</Text>
+                                            </View>}
+                                            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                                <Text style={{ fontWeight: 'bold' }}>Date added: </Text>
+                                                <Text>{moment(item.createdAt).format('dddd, MMMM DD, YYYY - hh:mm a')}</Text>
+                                            </View>
                                     </Pressable>
                                 )) :
 
                                 data.length ?
                                     data.map((item, index) => (
-                                        <Pressable key={index} style={[styles.view, { backgroundColor: 'green', borderRadius: 10, marginBottom: 10 }]}>
-                                            <Text>Item: {item.name}</Text>
-                                            <Text>Quantity: {item.quantity}</Text>
-                                            {item.addedBy && <Text>Added By: {item.addedBy.firstname}</Text>}
-                                            {item.removedBy && <Text>Removed By: {item.removedBy.firstname}</Text>}
-                                            <Text>Date added: {moment(item.createdAt).format('dddd, MMMM DD, YYYY - hh:mm a')}</Text>
+                                        <Pressable key={index} style={[styles.view, { backgroundColor: '#00f0ff', borderRadius: 10, marginBottom: 10 }]}>
+                                            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                                <Text style={{ fontWeight: 'bold' }}>Item: </Text>
+                                                <Text>{item.name}</Text>
+                                            </View>
+
+                                            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                                <Text style={{ fontWeight: 'bold' }}>Quantity: </Text>
+                                                <Text>{item.quantity}</Text>
+                                            </View>
+
+                                            {item.addedBy && <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                                <Text style={{ fontWeight: 'bold' }}>Added by: </Text>
+                                                <Text>{item.addedBy.firstname}</Text>
+                                            </View>}
+                                            {item.removedBy && <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                                <Text style={{ fontWeight: 'bold' }}>Removed by: </Text>
+                                                <Text>{item.removedBy.firstname}</Text>
+                                            </View>}
+                                            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                                <Text style={{ fontWeight: 'bold' }}>Date added: </Text>
+                                                <Text>{moment(item.createdAt).format('dddd, MMMM DD, YYYY - hh:mm a')}</Text>
+                                            </View>
                                         </Pressable>
                                     )) :
                                     <Text>No data to show</Text>
@@ -266,16 +300,16 @@ const Materials = () => {
             {/* action buttons */}
             <View style={{ display: 'grid', gridTemplateRows: '1fr 1fr', gap: 5, gridTemplateColumns: '50% 50%' }}>
                 {user.role === 'admin' && <Pressable onPress={() => { toggleAddMaterialsModal() }} style={styles.button}>
-                    <Text style={[styles.buttonText, {textAlign: 'center'}]}>Add Item</Text>
+                    <Text style={[styles.buttonText, { textAlign: 'center' }]}>Add Item</Text>
                 </Pressable>}
                 <Pressable style={styles.button} onPress={() => { toggleItemsSummaryModal(); setRefreshFetchMaterials(refreshFetchMaterials) }} >
-                    <Text style={[styles.buttonText, {textAlign: 'center'}]}>Stock</Text>
+                    <Text style={[styles.buttonText, { textAlign: 'center' }]}>Stock</Text>
                 </Pressable>
                 <Pressable style={styles.button} onPress={() => { toggleRemoveMaterialsModal() }} >
-                    <Text style={[styles.buttonText, {textAlign: 'center'}]}>Remove Item</Text>
+                    <Text style={[styles.buttonText, { textAlign: 'center' }]}>Remove Item</Text>
                 </Pressable>
                 <Pressable style={styles.button} onPress={() => { toggleMyUsedItemsModal(); setRefreshFetchMaterials(refreshFetchMaterials) }} >
-                    <Text style={[styles.buttonText, {textAlign: 'center'}]}>Used Items</Text>
+                    <Text style={[styles.buttonText, { textAlign: 'center' }]}>Used Items</Text>
                 </Pressable>
             </View>
 

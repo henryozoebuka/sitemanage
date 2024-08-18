@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux'
 import axios from 'axios'
 import { styles } from '../../constants/styles'
 import AddExpenseModal from '../../components/AddExpenseModal'
+import moment from 'moment'
 
 const Expenses = () => {
     const { user } = useSelector(state => state.user)
@@ -44,8 +45,6 @@ const Expenses = () => {
             value = parseFloat(text)
         }
         setExpenseData({ ...expenseData, spenderId: user._id, [fieldName]: value })
-        console.log(expenseData)
-
     }
 
     //toggle add expense modal
@@ -77,19 +76,19 @@ const Expenses = () => {
     return (
         <SafeAreaView style={styles.safeAreaView}>
             <View style={{ marginBottom: 10 }}>
-                <Text style={[styles.text20, { color: 'blue', fontWeight: 'bold' }]}>Expenses</Text>
+                <Text style={{ color: 'blue', fontWeight: 'bold', fontSize: 30, textAlign: 'center' }}>Expenses</Text>
             </View>
             <ScrollView>
                 {loading ? <ActivityIndicator color={'blue'} size={30} /> :
                     expenses && expenses.length ? expenses.map((item) => (
-                        <View key={item._id} style={{ backgroundColor: 'green', marginBottom: 10, padding: 10, borderRadius: 10 }}>
+                        <View key={item._id} style={{ backgroundColor: '#00f0ff', marginBottom: 10, padding: 10, borderRadius: 10 }}>
                             <View style={{ flexDirection: 'row' }}>
                                 <Text style={{ fontWeight: 'bold' }}>{item.item}: </Text>
                                 <Text>{item.amount}</Text>
                             </View>
                             <View style={{ flexDirection: 'row' }}>
                                 <Text style={{ fontWeight: 'bold' }}>Date: </Text>
-                                <Text>{item.createdAt}</Text>
+                                <Text>{moment(item.createdAt).format('dddd, MMMM DD, YYYY - hh:mm a')}</Text>
                             </View>
                         </View>
                     )) :

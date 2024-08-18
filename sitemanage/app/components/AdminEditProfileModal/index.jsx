@@ -11,13 +11,13 @@ const AdminEditProfileModal = ({ toggleAdminEditProfileModal, handleAdminEditPro
 
     return (
         <View style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0, alignItems: 'center', justifyContent: 'center', zIndex: 11, flex: 1, display: 'flex', backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
-            <View style={{ backgroundColor: 'green', width: '80%', borderRadius: 20, padding: 20 }}>
+            <View style={{ backgroundColor: '#00f0ff', width: '80%', borderRadius: 20, padding: 20 }}>
                 <Pressable onPress={toggleAdminEditProfileModal} style={{ justifyContent: 'center', alignItems: 'flex-end' }}>
                     <AntDesign name="close" size={24} color="#ffffff" />
                 </Pressable>
                 {/* component title */}
-                <View>
-                    <Text style={[styles.text20, { color: '#ffffff', fontWeight: 'bold', marginBottom: 10 }]}>Admin Edit Profile</Text>
+                <View style={{marginBottom: 20}}>
+                    <Text style={[styles.text20, { color: 'blue', textAlign: 'center', fontWeight: 'bold' }]}>Admin Edit Profile</Text>
                 </View>
                 <ScrollView>
                     <TextInput style={styles.textInput} value={otherUser.firstname} onChangeText={(text) => handleAdminEditProfileChange(text, 'firstname')} />

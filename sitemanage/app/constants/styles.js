@@ -113,9 +113,8 @@ export const styles = {
         alignItems: 'center',
         marginBottom: 10,
         borderRadius: 25,
-        borderWidth: 1,
         borderColor: 'gray',
-        fontSize: 20
+        fontSize: 15
     },
 
     safeAreaView : {

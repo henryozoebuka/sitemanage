@@ -6,6 +6,8 @@ import { useNavigation } from '@react-navigation/native'
 import { useDispatch, useSelector } from 'react-redux'
 import { setUsers } from '../../../redux/users'
 import axios from 'axios'
+import DeleteUserModal from '../../components/DeleteUserModal';
+import moment from 'moment'
 
 
 const Users = () => {
@@ -14,8 +16,9 @@ const Users = () => {
     const { users } = useSelector(state => state.users)
     const { user } = useSelector(state => state.user)
     const [searchResult, setSearchResult] = useState([])
-    const [deleteModal, setDeleteModal] = useState(false)
+    const [deleteUserModal, setDeleteUserModal] = useState(false)
     const [userToDelete, setUserToDelete] = useState(null)
+    const [userToDeleteId, setUserToDeleteId] = useState(null)
     useEffect(() => {
         fetchUsers()
     }, [])
@@ -32,18 +35,22 @@ const Users = () => {
     }
 
 
-    const handleDelete = async (id) => {
+    const handleDeleteUser = async (id) => {
         try {
+            console.log(id)
             const response = await axios.delete(`${url}/user/${id}`)
-            alert(response.data.message)
+            if (response) {
+                alert(response.data.message)
+                setDeleteUserModal(false)
+            }
             fetchUsers()
         } catch (error) {
             console.log(error)
         }
     }
 
-    const toggleDeleteModal = () => {
-        setDeleteModal(!deleteModal)
+    const toggleDeleteUserModal = () => {
+        setDeleteUserModal(!deleteUserModal)
     }
 
     const handleSearch = (text) => {
@@ -63,70 +70,48 @@ const Users = () => {
     return (
 
         <SafeAreaView style={styles.safeAreaView}>
+            {/* page title */}
+            <View style={{marginBottom: 10}}>
+                <Text style={{textAlign:'center', fontSize: 30, fontWeight: 'bold', color: 'blue'}}>Users</Text>
+            </View>
             <View>
                 <TextInput placeholder='Search user' onChangeText={(text) => handleSearch(text)} style={styles.textInput} />
             </View>
             <ScrollView>
                 {
                     dataToRender.map((item, index) => (
-                        <Pressable key={index} onPress={() => navigation.navigate('Other User', { id: item._id })}>
-                            {item.photo ? <Image source={{ uri: `${url}/${item.photo}` }} /> : <AntDesign name="adduser" size={50} color="black" />}
-                            <View style={{ flexDirection: 'row' }}>
-                                <Text style={{ fontWeight: 'bold' }}>Username: </Text>
-                                <Text>{item.username}</Text>
+                        <Pressable key={index} onPress={() => navigation.navigate('Other User', { id: item._id })} style={{ flexDirection: 'row', backgroundColor: '#00f0ff', alignItems: 'center', padding: 10, justifyContent: 'space-between', borderRadius: 10, marginBottom: 10 }}>
+                            <View style={{ width: 50, height: 50, backgroundColor: '#ffffff', borderRadius: 50, alignItems: 'center', justifyContent: 'center' }}>
+                                <Text style={{ fontSize: 30, color: '#00f0ff' }}>{item.username && item.username.charAt(0)}</Text>
                             </View>
-                            <View style={{ flexDirection: 'row' }}>
-                                <Text style={{ fontWeight: 'bold' }}>Firstname: </Text>
-                                <Text>{item.firstname}</Text>
-                            </View>
-                            <View style={{ flexDirection: 'row' }}>
-                                <Text style={{ fontWeight: 'bold' }}>Lastname: </Text>
-                                <Text>{item.lastname}</Text>
-                            </View>
-                            <View style={{ flexDirection: 'row' }}>
-                                <Text style={{ fontWeight: 'bold' }}>Gender: </Text>
-                                <Text>{item.gender}</Text>
-                            </View>
-                            <View style={{ flexDirection: 'row' }}>
-                                <Text style={{ fontWeight: 'bold' }}>Balance: </Text>
-                                <Text>{item.balance}</Text>
-                            </View>
-                            <View style={{ flexDirection: 'row' }}>
-                                <Text style={{ fontWeight: 'bold' }}>Role: </Text>
-                                <Text>{item.role}</Text>
-                            </View>
-                            <View style={{ flexDirection: 'row' }}>
-                                <Text style={{ fontWeight: 'bold' }}>Account number: </Text>
-                                <Text>{item.accountNumber}</Text>
-                            </View>
-                            <View style={{ flexDirection: 'row' }}>
-                                <Text style={{ fontWeight: 'bold' }}>Created: </Text>
-                                <Text>{item.createdAt}</Text>
+
+                            <View>
+                                <View style={{ flexDirection: 'row' }}>
+                                    <Text style={{ fontWeight: 'bold' }}>Username: </Text>
+                                    <Text>{item.username}</Text>
+                                </View>
+                                
+                                <View style={{ flexDirection: 'row' }}>
+                                    <Text style={{ fontWeight: 'bold' }}>Role: </Text>
+                                    <Text>{item.role}</Text>
+                                </View>
+                                <View style={{ flexDirection: 'row' }}>
+                                    <Text style={{ fontWeight: 'bold' }}>Account number: </Text>
+                                    <Text>{item.accountNumber}</Text>
+                                </View>
                             </View>
 
 
-                            <Pressable style={styles.button} onPress={() => { toggleDeleteModal(); setUserToDelete(item._id) }}>
-                                <Text style={styles.buttonText}>Delete User</Text>
+                            <Pressable style={{backgroundColor: 'red', borderRadius: 10, padding: 10}} onPress={() => { toggleDeleteUserModal(); setUserToDeleteId(item._id), setUserToDelete(item.firstname) }}>
+                                <Text style={styles.buttonText}>Delete</Text>
                             </Pressable>
 
-                            {/* delete user modal */}
-                            <Modal visible={deleteModal} animationType='slide' transparent={false}>
-                                <View style={{ marginVertical: 'auto' }}>
-                                    <View>
-                                        <Text style={styles.text20}>Are you sure you want to delete this user? ({userToDelete})</Text>
-                                    </View>
-                                    <Pressable onPress={() => { handleDelete(userToDelete); toggleDeleteModal() }} style={styles.button}>
-                                        <Text style={styles.buttonText}>Yes, delete!</Text>
-                                    </Pressable>
-
-                                    <Pressable onPress={() => toggleDeleteModal()} style={styles.button}>
-                                        <Text style={styles.buttonText}>No, don't!</Text>
-                                    </Pressable>
-                                </View>
-                            </Modal>
                         </Pressable>))
                 }
             </ScrollView>
+
+            {/* delete user modal */}
+            {deleteUserModal && <DeleteUserModal toggleDeleteUserModal={toggleDeleteUserModal} handleDeleteUser={handleDeleteUser} userToDelete={userToDelete} userToDeleteId={userToDeleteId} />}
 
         </SafeAreaView>
     )

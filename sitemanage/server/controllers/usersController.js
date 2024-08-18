@@ -125,6 +125,24 @@ const editUser = async (req, res) => {
     }
 };
 
+//add fund
+const addFund = async (req, res) => {
+    const {id, amount} = req.body
+    try {
+        const user = await UserModel.findById(id)
+        if(!user){
+            res.send('User not found.')
+        }
+        const newBalance = user.balance + amount
+        const updateBalance = await UserModel.findByIdAndUpdate(id, {balance: newBalance})
+        if(updateBalance){
+            res.status(200).json({message: `You have added N${amount} to your balance.`})
+        }
+    } catch (error) {
+        console.log(error)
+    }
+}
+
 // Delete user endpoint
 const deleteUser = async (req, res) => {
     const id = req.params.id;
@@ -157,4 +175,4 @@ const uploadPhoto = async (req, res) => {
     }
 };
 
-export { signUp, fetchUsers, fetchUser, fetchUserByAccountNumber, editUser, deleteUser, login, uploadPhoto };
+export { signUp, fetchUsers, fetchUser, fetchUserByAccountNumber, editUser, deleteUser, login, addFund, uploadPhoto };

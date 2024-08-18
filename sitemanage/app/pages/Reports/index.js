@@ -5,6 +5,7 @@ import WriteReportsModal from '../../components/WriteReportModal'
 import OpenReportModal from '../../components/OpenReportModal'
 import axios from 'axios'
 import { useSelector } from 'react-redux'
+import moment from 'moment'
 
 const Reports = () => {
     const { url } = useSelector(state => state.baseURL)
@@ -59,11 +60,11 @@ const Reports = () => {
         try {
             setLoading(true)
             const response = await axios.post(`${url}/postcomment`, commentData)
-        if(response.status === 200){
-            alert(response.data.message)
-        } else {
-            alert(response.data.message)
-        }
+            if (response.status === 200) {
+                alert(response.data.message)
+            } else {
+                alert(response.data.message)
+            }
         } catch (error) {
             console.log(error)
         }
@@ -76,10 +77,10 @@ const Reports = () => {
     const fetchReportComments = async (reportId) => {
         try {
             const response = await axios.get(`${url}/fetchcomments/${reportId}`)
-            if(response.status === 200){
+            if (response.status === 200) {
                 setReportComments(response.data)
             }
-            else{
+            else {
                 alert(response.data.message)
             }
         } catch (error) {
@@ -94,7 +95,7 @@ const Reports = () => {
 
     //handle comment text input
     const handleCommentChange = (text, fieldName) => {
-        setCommentData({commentId: report[0]._id, [fieldName]: text })
+        setCommentData({ commentId: report[0]._id, [fieldName]: text })
     }
 
     // toggle report modal
@@ -119,25 +120,31 @@ const Reports = () => {
     return (
         <SafeAreaView style={styles.safeAreaView}>
             {/* action buttons   */}
+            <View style={{marginBottom: 20}}>
+                <Text style={{textAlign: 'center', color: 'blue', fontWeight: 'bold', fontSize: 30}}>Reports</Text>
+            </View>
             <ScrollView>
 
                 {reports && reports.length ?
                     reports.map((item) => (
-                        <Pressable key={item._id} onPress={()=>{toggleOpenReportModal(), individualReport(item._id); fetchReportComments(item._id);}}>
-                        <View style={{ borderRadius: 10, backgroundColor: '#ffffff', borderWidth: 2, borderColor: 'blue', marginBottom: 10 }}>
-                            <Text style={[styles.text15, { fontWeight: 'bold', textAlign: 'center', color: 'blue' }]}>{item.title}</Text>
-                            <View>
-                                <Text style={[styles.text15]}>{item.content}</Text>
+                        <Pressable key={item._id} onPress={() => { toggleOpenReportModal(), individualReport(item._id); fetchReportComments(item._id); }}>
+                            <View style={{ borderRadius: 10, backgroundColor: '#00f0ff', marginBottom: 10, padding: 5 }}>
+                                <Text style={[styles.text15, { fontWeight: 'bold', textAlign: 'center', color: 'blue' }]}>{item.title}</Text>
+                                <View style={{maxHeight: 40}}>
+                                    <Text style={[styles.text15]}>{item.content.slice(0, 50)}{item.content.length > 50 && "..."}</Text>
+                                </View>
+                                <View style={{alignItems: 'flex-end', padding: 10}}>
+                                    <Text style={{borderRadius: 10, padding: 5,textAlign: 'right', backgroundColor: '#E5E4E2'}}>{moment(item.createdAt).format('dddd, MMMM DD, YYYY - hh:mm a')}</Text>
+                                </View>
+                                {item.comments &&
+                                    Object.keys(item.comments).map((commentKey, index) => (
+                                        <View key={index}>
+                                            <Text>{item.comments[commentKey]}</Text>
+                                        </View>
+                                    ))
+                                }
+
                             </View>
-                            {item.comments &&
-                                Object.keys(item.comments).map((commentKey, index) => (
-                                    <View key={index}>
-                                        <Text>{item.comments[commentKey]}</Text>
-                                    </View>
-                                ))
-                            }
-                            
-                        </View>
                         </Pressable>
                     )) : <Text>No report in your records.</Text>
                 }
