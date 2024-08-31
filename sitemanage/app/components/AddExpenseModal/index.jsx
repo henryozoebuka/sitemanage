@@ -15,7 +15,7 @@ const AddExpenseModal = ({ addExpense, toggleAddExpenseModal, handleChange }) =>
           <Text style={{color: 'blue', fontWeight: 'bold', textAlign: 'center', fontSize: 20}}>Add Expense</Text>
         </View>
         <View>
-          <TextInput style={styles.textInput} placeholder='Item' onChangeText={(text) => handleChange(text, 'item')} />
+          <TextInput style={styles.textInput} placeholder='Description' onChangeText={(text) => handleChange(text, 'item')} />
           <TextInput style={styles.textInput} placeholder='Amount' onChangeText={(text) => handleChange(text, 'amount')} />
         </View>
         {/* Action buttons */}

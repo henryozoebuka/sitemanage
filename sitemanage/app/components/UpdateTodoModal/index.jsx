@@ -1,10 +1,10 @@
-import { Pressable, ScrollView, Text, TextInput, View } from 'react-native'
+import { ActivityIndicator, Pressable, ScrollView, Text, TextInput, View } from 'react-native'
 import AntDesign from '@expo/vector-icons/AntDesign';
 import { styles } from '../../constants/styles';
 import { useDispatch, useSelector } from 'react-redux';
 import { setTodoUpdateData } from '../../../redux/todoUpdateData.js';
 
-const UpdateTodoModal = ({ todoUpdateData, toggleUpdateTodoModal, updateTodo, handleUpdateTodoChange, toggleCompletedTrue, toggleCompletedFalse }) => {
+const UpdateTodoModal = ({ todoUpdateData, toggleUpdateTodoModal, updateTodo, handleUpdateTodoChange, loading }) => {
 
     const dispatch = useDispatch()
 
@@ -22,24 +22,24 @@ const UpdateTodoModal = ({ todoUpdateData, toggleUpdateTodoModal, updateTodo, ha
                     <TextInput value={todoUpdateData && todoUpdateData.description} placeholder='Description' multiline={true} rows={3} style={styles.textInput} onChangeText={(text) => handleUpdateTodoChange(text, 'description')} />
                 </ScrollView>
                 <View style={{ flexDirection: 'row', alignItems: 'center', gap: 5, marginVertical: 20 }}>
-                    <View style={{ flexDirection: 'row', alignItems: 'center', gap: 5 }}>
-                        <View style={{ borderRadius: 50, alignItems: 'center', justifyContent: 'center', width: 30, height: 30, backgroundColor: '#ffffff', marginLeft: 10 }}>
+                    <Pressable onPress={() => { dispatch(setTodoUpdateData({ ...todoUpdateData, completed: true })) }} style={{ flexDirection: 'row', alignItems: 'center', gap: 5 }}>
+                        <Pressable style={{ borderRadius: 50, alignItems: 'center', justifyContent: 'center', width: 30, height: 30, backgroundColor: '#ffffff', marginLeft: 10 }}>
                             <Pressable onPress={() => { dispatch(setTodoUpdateData({ ...todoUpdateData, completed: true })) }} style={{ borderRadius: 50, width: 20, height: 20, backgroundColor: todoUpdateData && todoUpdateData.completed === true ? 'blue' : null }}></Pressable>
-                        </View>
+                        </Pressable>
                         <Text style={{ color: 'blue', fontWeight: 'bold' }}>Completed</Text>
-                    </View>
-                    <View style={{ flexDirection: 'row', alignItems: 'center', gap: 5 }}>
-                        <View style={{ borderRadius: 50, alignItems: 'center', justifyContent: 'center', width: 30, height: 30, backgroundColor: '#ffffff', marginLeft: 10 }}>
+                    </Pressable>
+                    <Pressable onPress={() => { dispatch(setTodoUpdateData({ ...todoUpdateData, completed: false })) }} style={{ flexDirection: 'row', alignItems: 'center', gap: 5 }}>
+                        <Pressable style={{ borderRadius: 50, alignItems: 'center', justifyContent: 'center', width: 30, height: 30, backgroundColor: '#ffffff', marginLeft: 10 }}>
                             <Pressable onPress={() => { dispatch(setTodoUpdateData({ ...todoUpdateData, completed: false })) }} style={{ borderRadius: 50, width: 20, height: 20, backgroundColor: todoUpdateData && todoUpdateData.completed === false ? 'blue' : null }}></Pressable>
-                        </View>
+                        </Pressable>
                         <Text style={{ color: 'blue', fontWeight: 'bold' }}>Not Completed</Text>
-                    </View>
+                    </Pressable>
                 </View>
                 <View>
 
                     {/* action button(s) */}
                     <Pressable style={styles.button} onPress={() => { updateTodo(todoUpdateData._id); }}>
-                        <Text style={styles.buttonText}>Update</Text>
+                        {loading ? <View style={{position: 'absolute', zIndex: 11, top: 0, bottom: 0, left: 0, right: 0, justifyContent: 'center', alignItems: 'center'}}><ActivityIndicator color={'#ffffff'} size={30} /></View> : <Text style={styles.buttonText}>Update</Text>}
                     </Pressable>
                 </View>
             </View>

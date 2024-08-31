@@ -1,4 +1,4 @@
-import { SafeAreaView, Alert, TextInput, Text, View, Pressable } from 'react-native'
+import { SafeAreaView, ActivityIndicator, Alert, TextInput, Text, View, Pressable } from 'react-native'
 import { styles } from '../../constants/styles.js'
 import { useDispatch, useSelector } from 'react-redux'
 import React, { useEffect, useState } from 'react'
@@ -13,6 +13,7 @@ const Login = () => {
   const dispatch = useDispatch()
   const { url } = useSelector(state => state.baseURL)
   const { loggedIn } = useSelector(state => state.login)
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
   }, [loggedIn]);
@@ -25,6 +26,7 @@ const Login = () => {
 
   const handleSubmit = async () => {
     try {
+      setLoading(true)
       const response = await axios.post(`${url}/login`, data)
       if (response.status === 200) {
         dispatch(toggleLoggedIn())
@@ -43,6 +45,8 @@ const Login = () => {
       }
     } catch (error) {
       console.log(error)
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -55,7 +59,12 @@ const Login = () => {
         <TextInput style={styles.textInput} placeholder='Username' onChangeText={(text) => handleChange(text, 'username')} />
         <TextInput style={styles.textInput} placeholder='Password' onChangeText={(text) => handleChange(text, 'password')} secureTextEntry={true} />
         <Pressable style={styles.button} onPress={handleSubmit}>
+        {loading ?
+        <View style={{alignItems: 'center', justifyContent: 'center'}}>
+          <ActivityIndicator color={'#ffffff'} size={30}/>
+        </View> :
           <Text style={styles.buttonText}>Login</Text>
+        }
         </Pressable>
       </View>
       <View>

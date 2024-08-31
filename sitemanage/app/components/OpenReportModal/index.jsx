@@ -13,7 +13,7 @@ const OpenReportModal = ({ toggleOpenReportModal, toggleCommentTextInput, report
                 <Pressable style={{ justifyContent: 'center', alignItems: 'flex-end' }} onPress={() => { toggleOpenReportModal(); setCommentTextInput(false); }}>
                     <AntDesign name="close" size={24} color="#ffffff" />
                 </Pressable>
-                {loading && <View style={{ position: 'absolute', justifyContent: 'center', alignItems: 'center' }}><ActivityIndicator color={'blue'} size={30} /></View>}
+                {loading && <View style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0, zIndex: 11, justifyContent: 'center', alignItems: 'center' }}><ActivityIndicator color={'blue'} size={30} /></View>}
 
                 <ScrollView style={{ marginVertical: 10 }}>
                     {/* render reports */}

@@ -39,7 +39,6 @@ const Materials = () => {
     useEffect(() => {
         const fetchData = async () => {
             await fetchMaterials()
-            fetchItemsSummary()
         }
         fetchData()
     }, [refreshFetchMaterials])
@@ -88,7 +87,7 @@ const Materials = () => {
             dispatch(setAddMaterialsData({
             }))
             setVerifyAccount({})
-            setRefreshFetchMaterials(prev => prev + 1)
+            // setRefreshFetchMaterials(prev => prev + 1)
         }
     };
 
@@ -96,7 +95,7 @@ const Materials = () => {
         if (fetchMaterialsCompleted) {
             setRemoveMaterialsModal(!removeMaterialsModal)
             setRemoveMaterialsData({})
-            setRefreshFetchMaterials(removeMaterials + 1)
+            // setRefreshFetchMaterials(removeMaterials + 1)
         }
     };
 
@@ -141,8 +140,7 @@ const Materials = () => {
             const response = await axios.post(`${url}/addmaterials`, addMaterialsData)
             if (response.status === 200) {
                 Alert.alert(response.data.message)
-                dispatch(setAddMaterialsData({
-                }))
+                dispatch(setAddMaterialsData({}))
             }
         } catch (error) {
             console.log(error)
@@ -165,27 +163,29 @@ const Materials = () => {
         }
     }
 
+
     // fetch items summary function
     const fetchItemsSummary = () => {
-
-        try {
-            setLoading(true)
-            const totals = data.reduce((acc, item) => {
-                const { name, quantity } = item
-                if (!acc[name]) {
-                    acc[name] = 0
-                }
-                acc[name] += quantity
-                return acc
-            }, {})
-            setFilteredMaterials(totals)
-        } catch (error) {
-            console.log(error)
-        } finally {
-            setLoading(false)
+        
+            try {
+                setLoading(true)
+                const totals = data.reduce((acc, item) => {
+                    const { name, quantity } = item
+                    if (!acc[name]) {
+                        acc[name] = 0
+                    }
+                    acc[name] += quantity
+                    return acc
+                }, {})
+                setFilteredMaterials(totals)
+            } catch (error) {
+                console.log(error)
+            } finally {
+                setLoading(false)
+            }
         }
-    }
-
+    
+        
     //remove materials function
     const removeMaterials = async () => {
         try {
@@ -193,6 +193,7 @@ const Materials = () => {
             if (response.status === 200) {
                 alert(response.data.message)
                 setRemoveMaterialsData({})
+                toggleRemoveMaterialsModal()
             }
             else if (response.status === 201) {
                 alert(response.data.message)
@@ -302,20 +303,20 @@ const Materials = () => {
                 {user.role === 'admin' && <Pressable onPress={() => { toggleAddMaterialsModal() }} style={styles.button}>
                     <Text style={[styles.buttonText, { textAlign: 'center' }]}>Add Item</Text>
                 </Pressable>}
-                <Pressable style={styles.button} onPress={() => { toggleItemsSummaryModal(); setRefreshFetchMaterials(refreshFetchMaterials) }} >
+                <Pressable style={styles.button} onPress={() => { toggleItemsSummaryModal(); fetchItemsSummary() }} >
                     <Text style={[styles.buttonText, { textAlign: 'center' }]}>Stock</Text>
                 </Pressable>
                 <Pressable style={styles.button} onPress={() => { toggleRemoveMaterialsModal() }} >
                     <Text style={[styles.buttonText, { textAlign: 'center' }]}>Remove Item</Text>
                 </Pressable>
-                <Pressable style={styles.button} onPress={() => { toggleMyUsedItemsModal(); setRefreshFetchMaterials(refreshFetchMaterials) }} >
+                <Pressable style={styles.button} onPress={() => { toggleMyUsedItemsModal(); }} >
                     <Text style={[styles.buttonText, { textAlign: 'center' }]}>Used Items</Text>
                 </Pressable>
             </View>
 
             {/* add materials modal */}
             {addMaterialsModal &&
-                <AddMaterialsModal toggleAddMaterialsModal={toggleAddMaterialsModal} handleChange={handleChange} addMaterials={addMaterials} addMaterialsData={addMaterialsData} verifyAccount={verifyAccount} loading={loading} setAddMaterialsData={setAddMaterialsData} setRefreshFetchMaterials={setRefreshFetchMaterials} refreshFetchMaterials={refreshFetchMaterials} />
+                <AddMaterialsModal toggleAddMaterialsModal={toggleAddMaterialsModal} handleChange={handleChange} addMaterials={addMaterials} addMaterialsData={addMaterialsData} verifyAccount={verifyAccount} loading={loading} setAddMaterialsData={setAddMaterialsData} />
             }
 
             {removeMaterialsModal &&

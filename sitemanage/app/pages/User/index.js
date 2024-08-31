@@ -4,7 +4,6 @@ import { useNavigation } from '@react-navigation/native'
 import React, { useState, useEffect } from 'react'
 import { styles } from '../../constants/styles.js'
 import { setTransferData } from '../../../redux/transferData.js'
-// import { setTransactions } from '../../../redux/transactions'
 import { resetUser } from '../../../redux/user.js';
 import TransferModal from '../../components/TransferModal/index.jsx';
 import TransactionsModal from '../../components/TransactionsModal/index.jsx';

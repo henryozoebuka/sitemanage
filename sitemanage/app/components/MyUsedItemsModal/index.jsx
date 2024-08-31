@@ -1,4 +1,5 @@
-import { StyleSheet, Text, View, ActivityIndicator, TextInput, Pressable, Alert, ScrollView } from 'react-native'
+import { Text, View, ActivityIndicator, Pressable} from 'react-native'
+import { ScrollView } from 'react-native-gesture-handler'
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { styles } from '../../constants/styles.js'
@@ -34,29 +35,30 @@ const MyUsedItemsModal = ({ data, toggleMyUsedItemsModal, loading, setLoading })
   }
 
   return (
-    <View style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0, alignItems: 'center', justifyContent: 'center', zIndex: 11, flex: 1, display: 'flex', backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
+    <View style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0, alignItems: 'center', justifyContent: 'center', zIndex: 11, flex: 1, display: 'flex', backgroundColor: 'rgba(0, 0, 0, 0.5)'}}>
       <View style={{ backgroundColor: '#00f0ff', maxHeight: '80%', width: '80%', borderRadius: 20, padding: 20 }}>
-      <Pressable onPress={() => { toggleMyUsedItemsModal() }} style={{ justifyContent: 'center', alignItems: 'flex-end' }}>
-                    <AntDesign name="close" size={24} color="#ffffff" />
-                </Pressable>
-                {/* component title */}
-                <View>
-                    <Text style={[styles.text20, { color: 'blue', fontWeight: 'bold', marginBottom: 10, textAlign: 'center' }]}>My Used Items</Text>
-                </View>
+        <Pressable onPress={() => { toggleMyUsedItemsModal() }} style={{ justifyContent: 'center', alignItems: 'flex-end' }}>
+          <AntDesign name="close" size={24} color="#ffffff" />
+        </Pressable>
+        {/* component title */}
         <View>
-          <View style={{ backgroundColor: '#D3D3D3', marginVertical: 10, padding: 10, borderRadius: 10 }}>
+          <Text style={[styles.text20, { color: 'blue', fontWeight: 'bold', marginBottom: 10, textAlign: 'center' }]}>My Used Items</Text>
+        </View>
+        <View>
+          <Pressable style={{ backgroundColor: '#D3D3D3', marginVertical: 10, padding: 10, borderRadius: 10, maxHeight: 150 }}>
             <Text style={{ fontWeight: 'bold', fontSize: 15, textAlign: 'center', paddingBottom: 5, color: 'blue' }}>Summary of used items: </Text>
             <ScrollView style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 5 }}>
               {Object.keys(myUsedItemsSummary).map((item, index) => (
-                <View key={index} style={{ display: 'flex', flexDirection: 'row', borderRadius: 5, backgroundColor: 'orange', marginBottom: 5}}>
+                <View key={index} style={{ display: 'flex', flexDirection: 'row', borderRadius: 5, backgroundColor: 'orange', marginBottom: 5 }}>
                   <Text style={{ fontWeight: 'bold' }}>{item}: </Text>
                   <Text>{myUsedItemsSummary[item]}</Text>
                 </View>
               ))}
             </ScrollView>
-          </View>
+          </Pressable>
         </View>
         <ScrollView>
+          <Pressable>
           {loading ? <ActivityIndicator size={30} color={'blue'} /> :
             items && items.length > 0 ?
               items.map((item, index) => (
@@ -82,6 +84,7 @@ const MyUsedItemsModal = ({ data, toggleMyUsedItemsModal, loading, setLoading })
                 </View>
               )) : <Text>Nothing to show</Text>
           }
+          </Pressable>
         </ScrollView>
       </View>
     </View>

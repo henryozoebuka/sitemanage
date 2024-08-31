@@ -1,5 +1,5 @@
 import UserModel from "../models/users.js";
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 import multer from 'multer';
 
 // Function to generate unique account number
@@ -159,20 +159,5 @@ const deleteUser = async (req, res) => {
     }
 };
 
-// Upload photo endpoint
-const uploadPhoto = async (req, res) => {
-    try {
-        if (req.file) {
-            // Assuming you save the path to the uploaded photo in the user document
-            const photoPath = req.file.path; // Adjust as per your multer setup
-            return res.status(200).json({ message: 'Photo uploaded successfully.', photoPath });
-        } else {
-            return res.status(400).json({ message: 'No file uploaded.' });
-        }
-    } catch (error) {
-        console.log(error);
-        return res.status(500).json({ message: 'Internal server error.' });
-    }
-};
 
-export { signUp, fetchUsers, fetchUser, fetchUserByAccountNumber, editUser, deleteUser, login, addFund, uploadPhoto };
+export { signUp, fetchUsers, fetchUser, fetchUserByAccountNumber, editUser, deleteUser, login, addFund};

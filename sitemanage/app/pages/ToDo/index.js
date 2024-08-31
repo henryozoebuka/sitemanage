@@ -7,7 +7,7 @@ import axios from 'axios'
 import { useDispatch, useSelector } from 'react-redux'
 import moment from 'moment'
 import UpdateTodoModal from '../../components/UpdateTodoModal'
-import {setTodoUpdateData} from '../../../redux/todoUpdateData.js'
+import { setTodoUpdateData } from '../../../redux/todoUpdateData.js'
 
 
 const ToDo = () => {
@@ -42,22 +42,25 @@ const ToDo = () => {
 
     //handle individual todo change
     const handleUpdateTodoChange = (text, fieldName) => {
-        dispatch(setTodoUpdateData({...todoUpdateData, [fieldName]: text}))
+        dispatch(setTodoUpdateData({ ...todoUpdateData, [fieldName]: text }))
     }
 
     //create Todo 
     const postToDo = async () => {
         try {
+            setLoading(true)
             const response = await axios.post(`${url}/posttodo`, toDoData)
             if (response) {
                 alert(response.data.message)
                 setToDoModal(false)
-                setRefreshPage(refreshPage + 1)
+                // setRefreshPage(refreshPage + 1)
             } else {
                 alert(response.data.message)
             }
         } catch (error) {
             console.log(error)
+        } finally {
+            setLoading(false)
         }
     }
 
@@ -81,14 +84,17 @@ const ToDo = () => {
     //update todo
     const updateTodo = async (id) => {
         try {
+            setLoading(true)
             const response = await axios.patch(`${url}/updatetodo/${id}`, todoUpdateData)
-            if(response){
+            if (response) {
+                fetchTodos()
                 alert(response.data.message)
                 setUpdateTodoModal(false)
-                setRefreshPage(refreshPage + 1)
             }
         } catch (error) {
             console.log(error)
+        } finally {
+            setLoading(false)
         }
     }
 
@@ -105,30 +111,30 @@ const ToDo = () => {
 
     return (
         <SafeAreaView style={styles.safeAreaView}>
-            <View style={{marginBottom: 10}}>
-                <Text style={{color: 'blue', fontWeight: 'bold', textAlign: 'center', fontSize: 30}}>Todos</Text>
+            <View style={{ marginBottom: 10 }}>
+                <Text style={{ color: 'blue', fontWeight: 'bold', textAlign: 'center', fontSize: 30 }}>Todos</Text>
             </View>
             <ScrollView>
-                {loading ? 
-                <View style={{justifyContent: 'center', alignItems: 'center'}} >
-                    <ActivityIndicator color={'blue'} size={30} />
-                </View>:
-                 data && data.length ? [
-                    ...data.filter(item => item.completed === false),
-                    ...data.filter(item => item.completed === true)
-                 ].map((item) => (
-                    <Pressable onPress={()=>{toggleUpdateTodoModal(); getUpdateData(item._id)}} key={item._id} style={{ backgroundColor: '#00f0ff', borderRadius: 10, padding: 10, marginBottom: 10 }}>
-                        {item.completed === true && <View style={{position: 'absolute', top: 0, bottom: 0, right: 0, left: 0, zIndex: 2, borderRadius: 10, backgroundColor: 'rgba(0, 255, 0, 0.5)', alignItems: 'center', justifyContent: 'center'}}>
-                            <Text style={{color: '#ffffff', fontWeight: 'bold', fontSize: 30}}>Completed</Text>
+                {loading ?
+                    <View style={{ justifyContent: 'center', alignItems: 'center' }} >
+                        <ActivityIndicator color={'blue'} size={30} />
+                    </View> :
+                    data && data.length ? [
+                        ...data.filter(item => item.completed === false),
+                        ...data.filter(item => item.completed === true)
+                    ].map((item) => (
+                        <Pressable onPress={() => { toggleUpdateTodoModal(); getUpdateData(item._id) }} key={item._id} style={{ backgroundColor: '#00f0ff', borderRadius: 10, padding: 10, marginBottom: 10 }}>
+                            {item.completed === true && <View style={{ position: 'absolute', top: 0, bottom: 0, right: 0, left: 0, zIndex: 2, borderRadius: 10, backgroundColor: 'rgba(0, 255, 0, 0.5)', alignItems: 'center', justifyContent: 'center' }}>
+                                <Text style={{ color: '#ffffff', fontWeight: 'bold', fontSize: 30 }}>Completed</Text>
                             </View>}
-                        <Text style={{ fontWeight: 'bold' }}>{item.title}</Text>
-                        <Text>{item.description}</Text>
-                        <View style={{alignItems: 'flex-end'}}>
-                            <Text style={{textAlign: 'right', backgroundColor: '#F2F2F2', borderRadius: 10, paddingHorizontal: 5}}>{moment(item.createdAt).format('dddd, MMMM DD, YYYY - hh:mm a')}</Text>
-                        </View>
-                    </Pressable>
-                )) :
-                    <Text>You don't have any todos in your record.</Text>
+                            <Text style={{ fontWeight: 'bold' }}>{item.title}</Text>
+                            <Text>{item.description}</Text>
+                            <View style={{ alignItems: 'flex-end' }}>
+                                <Text style={{ textAlign: 'right', backgroundColor: '#F2F2F2', borderRadius: 10, paddingHorizontal: 5 }}>{moment(item.createdAt).format('dddd, MMMM DD, YYYY - hh:mm a')}</Text>
+                            </View>
+                        </Pressable>
+                    )) :
+                        <Text>You don't have any todos in your record.</Text>
                 }
             </ScrollView>
             <View>
@@ -137,9 +143,9 @@ const ToDo = () => {
                 </Pressable>
             </View>
 
-            {toDoModal && <ToDoModal postToDo={postToDo} toggleToDoModal={toggleToDoModal} handleChange={handleChange} />}
+            {toDoModal && <ToDoModal postToDo={postToDo} toggleToDoModal={toggleToDoModal} handleChange={handleChange} loading={loading} />}
 
-            {updateTodoModal && <UpdateTodoModal data={data} toggleUpdateTodoModal={toggleUpdateTodoModal} updateTodo={updateTodo} handleUpdateTodoChange={handleUpdateTodoChange} todoUpdateData={todoUpdateData} />}
+            {updateTodoModal && <UpdateTodoModal data={data} toggleUpdateTodoModal={toggleUpdateTodoModal} updateTodo={updateTodo} handleUpdateTodoChange={handleUpdateTodoChange} todoUpdateData={todoUpdateData} loading={loading} />}
 
         </SafeAreaView>
     )

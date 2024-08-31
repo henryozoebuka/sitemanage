@@ -3,7 +3,7 @@ import {createSlice} from '@reduxjs/toolkit'
 const baseURLSlice = createSlice({
     name: 'base_url',
     initialState: {
-        url: 'http://192.168.20.83:3001'
+        url: 'https://ozstiwhaw1.execute-api.eu-north-1.amazonaws.com/prod'
     }
 })
 

@@ -61,7 +61,8 @@ const Reports = () => {
             setLoading(true)
             const response = await axios.post(`${url}/postcomment`, commentData)
             if (response.status === 200) {
-                alert(response.data.message)
+                Alert.alert(response.data.message)
+                toggleOpenReportModal()
             } else {
                 alert(response.data.message)
             }

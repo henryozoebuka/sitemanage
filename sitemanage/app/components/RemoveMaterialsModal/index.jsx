@@ -4,7 +4,7 @@ import RNPickerSelect from 'react-native-picker-select'
 import { styles } from '../../constants/styles.js'
 import AntDesign from '@expo/vector-icons/AntDesign';
 
-const RemoveMaterialsModal = ({ toggleRemoveMaterialsModal, handleRemoveMaterialsChange, removeMaterials, removeMaterialsData, setRefreshFetchMaterials, refreshFetchMaterials }) => {
+const RemoveMaterialsModal = ({ toggleRemoveMaterialsModal, handleRemoveMaterialsChange, removeMaterials, removeMaterialsData }) => {
 
 
   const materials = [
@@ -34,7 +34,7 @@ const RemoveMaterialsModal = ({ toggleRemoveMaterialsModal, handleRemoveMaterial
 
         <TextInput value={removeMaterialsData.quantity} placeholder='Quantity' keyboardType='numeric' onChangeText={(text) => handleRemoveMaterialsChange(text, 'quantity')} style={[styles.textInput, {marginTop: 20}]} />
 
-        <Pressable onPress={() => { removeMaterials(); toggleRemoveMaterialsModal(); setRefreshFetchMaterials(refreshFetchMaterials + 1) }} style={[styles.button, {marginTop: 10}]} >
+        <Pressable onPress={() => { removeMaterials(); }} style={[styles.button, {marginTop: 10}]} >
           <Text style={styles.buttonText}>Remove</Text>
         </Pressable>
       </View>

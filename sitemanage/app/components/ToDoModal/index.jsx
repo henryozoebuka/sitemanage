@@ -1,9 +1,9 @@
-import { Pressable, ScrollView, Text, TextInput, View } from 'react-native'
+import { Pressable, ScrollView, Text, TextInput, View, ActivityIndicator } from 'react-native'
 import React from 'react'
 import { styles } from '../../constants/styles'
 import AntDesign from '@expo/vector-icons/AntDesign';
 
-const ToDoModal = ({ postToDo, toggleToDoModal, handleChange }) => {
+const ToDoModal = ({ postToDo, toggleToDoModal, handleChange, loading }) => {
   return (
     <View style={{ position: 'absolute', top: 0, bottom: 0, right: 0, left: 0, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
       <View style={{ width: '80%', backgroundColor: '#00f0ff', borderRadius: 20, padding: 10 }}>
@@ -21,7 +21,7 @@ const ToDoModal = ({ postToDo, toggleToDoModal, handleChange }) => {
 
           {/* action button(s) */}
           <Pressable style={[styles.button, {marginTop: 10}]} onPress={() => { postToDo(); }}>
-            <Text style={styles.buttonText}>Add</Text>
+          {loading ? <View style={{position: 'absolute', zIndex: 11, top: 0, bottom: 0, left: 0, right: 0, justifyContent: 'center', alignItems: 'center'}}><ActivityIndicator color={'#ffffff'} size={30} /></View> : <Text style={styles.buttonText}>Add</Text>}
           </Pressable>
         </View>
       </View>

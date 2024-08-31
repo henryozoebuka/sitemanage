@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux'
 import { styles } from '../../constants/styles.js'
 import AntDesign from '@expo/vector-icons/AntDesign';
 
-const AddMaterialsModal = ({ toggleAddMaterialsModal, handleChange, addMaterials, verifyAccount, addMaterialsData, loading, setRefreshFetchMaterials, refreshFetchMaterials }) => {
+const AddMaterialsModal = ({ toggleAddMaterialsModal, handleChange, addMaterials, verifyAccount, addMaterialsData, loading }) => {
   
   const { user } = useSelector(state => state.user)
 
